@@ -44,7 +44,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) 410px;min-height:0}
 .tools{position:absolute;left:12px;top:12px;display:flex;flex-direction:column;gap:6px;z-index:3;max-height:calc(100% - 24px);overflow:auto;padding-right:4px}
 .tools .grp{display:flex;flex-direction:column;gap:4px;padding:6px;background:color-mix(in srgb,var(--panel) 86%,transparent);border:1px solid var(--rule);border-radius:12px;backdrop-filter:blur(6px)}
 .tools .lab{font-size:12px;color:var(--muted);padding:0 4px}
-.tb{min-height:38px;min-width:44px;border:1px solid transparent;background:transparent;border-radius:8px;padding:0 10px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px}
+.tb{min-height:35px;min-width:44px;border:1px solid transparent;background:transparent;border-radius:8px;padding:0 10px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px}
 .tb:hover{background:var(--chip)}
 .tb[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .tb kbd{margin-left:auto;font:12px var(--f-mono);opacity:.55}
@@ -58,6 +58,7 @@ main{display:grid;grid-template-columns:minmax(0,1fr) 410px;min-height:0}
 .inset .cap{position:absolute;left:10px;top:8px;color:#cfe0d6;font-size:12px;pointer-events:none}
 .inset .exp{position:absolute;right:6px;top:6px;min-height:32px;min-width:32px;border-radius:8px;border:0;background:rgba(255,255,255,.08);color:#e6efe9;cursor:pointer}
 .inset.big{width:min(70%,640px);height:min(78%,640px)}
+.brread{position:absolute;left:222px;right:330px;bottom:58px;margin:0 auto;max-width:640px;z-index:3;background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid #ffc23d;border-radius:12px;padding:8px 14px;pointer-events:none;display:flex;flex-direction:column;gap:2px}.brread b{font:600 13px/1.3 var(--f-ui);color:#ffc23d}.brread .w{font:400 22px/1.3 var(--f-math,serif);white-space:nowrap;overflow:hidden;text-overflow:clip;direction:rtl;text-align:left}.brread small{font-size:12px;color:var(--muted)}
 .hint{position:absolute;left:222px;right:330px;bottom:12px;z-index:2;font-size:13px;color:var(--muted);background:color-mix(in srgb,var(--panel) 80%,transparent);padding:6px 12px;border-radius:12px;border:1px solid var(--rule);text-align:left;pointer-events:none}
 @media (max-width:1180px){.hint{display:none}}
 .toast{position:absolute;right:12px;top:56px;z-index:3;display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:none}
@@ -77,6 +78,7 @@ aside{overflow:auto;border-left:1px solid var(--rule);background:var(--panel)}
 .dot.busy{background:var(--accent);animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.3}}
 section{padding:14px 20px;border-bottom:1px solid var(--rule)}
+section.hl{animation:sechl 2.2s ease-out}@keyframes sechl{0%{background:rgba(255,194,61,.22)}100%{background:transparent}}
 section h2{font:600 15px/1.3 var(--f-ui);margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 section h2 small{font-weight:400;color:var(--muted);font-size:12px}
 .poly{font:17px/1.45 var(--f-math);margin:2px 0 10px;overflow-wrap:anywhere}
@@ -113,6 +115,17 @@ table.kh td.f{background:color-mix(in srgb,var(--accent) 22%,transparent);font-w
 .rcount span{font-size:12px;color:var(--muted)}
 .note{font-size:12px;color:var(--muted);margin:6px 0 0}
 .cands{font-size:13px;margin-top:8px}
+.seg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px}
+.seg3 .tb{justify-content:center;padding:0 4px;font-size:13px;min-height:34px}
+#rmSimp small,.seg3 small{opacity:.6;font-size:11px;margin-left:4px}
+#rmSimp[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.tb:disabled{opacity:.4;cursor:default}
+.brword{font:22px/1.4 var(--f-math);margin:4px 0 6px}.brword small{font:12px var(--f-ui);color:var(--muted);margin-left:8px}
+.brsvg{overflow-x:auto;margin:2px 0 8px}.brsvg svg{display:block;max-width:100%;height:auto}
+.brgens,.brops{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0}
+.brgens .mini{min-width:52px;font-family:var(--f-math);font-size:15px}
+.brhist{margin:8px 0 0;padding-left:20px;font-size:13px;max-height:220px;overflow:auto}
+.brhist li{margin:2px 0}.brhist .w{font-family:var(--f-math)}.brhist .k{font-family:var(--f-math);font-weight:600;margin:0 6px}.brhist small{color:var(--muted)}
 .surfbtns{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px}
 .surfbtns .btn{min-height:34px;font-size:13px}
 .surfbtns .btn[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
@@ -221,6 +234,13 @@ a{color:inherit}
         <button class="tb" data-tog="guard" aria-pressed="true" title="Açıkken iplik kendi içinden geçemez: yapılan her hareket bir izotopidir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>İzotopi kalkanı</button>
         <div class="slider"><span>Etki</span><input id="falloff" type="range" min="0.015" max="0.2" step="0.005" value="0.06" aria-label="Çekme etki yarıçapı"></div>
       </div>
+      <div class="grp" role="group" aria-label="Reidemeister hamleleri">
+        <div class="lab">Hamleler</div>
+        <button class="tb" id="rmSimp" aria-pressed="false" title="R1, R2 ve R3 hamlelerini ipin üzerinde tek tek uygulayarak diyagramı sadeleştirir">Sadeleştir <small>R1·R2·R3</small></button>
+        <div class="seg seg3"><button class="tb" id="rmR1" title="Boş bir kıvrımı çöz">R1 −</button><button class="tb" id="rmR2" title="Boş bir iki-geni kaldır">R2 −</button><button class="tb" id="rmR3" title="Bir ipliği bir kesişimin üzerinden kaydır">R3</button>
+        <button class="tb" id="rmR1p" title="Rastgele bir yere kıvrım ekle">R1 +</button><button class="tb" id="rmR2p" title="Bir ipliği komşusunun üzerinden it: iki kesişim">R2 +</button><button class="tb" id="rmSmooth" title="İpi kendi içinden geçirmeden pürüzsüzleştir">Düzgün</button></div>
+        <button class="tb" id="brConv" title="Alexander teoremi: düğümü bir eksen etrafında örgüye sar ve örgü sözcüğünü oku">Örgüye dönüştür</button>
+      </div>
       <div class="grp" role="group" aria-label="Renk">
         <div class="lab">Renk</div>
         <div class="seg">
@@ -238,6 +258,7 @@ a{color:inherit}
     <div class="inset" id="inset"><canvas id="c2d" aria-label="Düğüm diyagramı"></canvas><div class="cap" id="insetcap">Diyagram</div><button class="exp" id="insetexp" title="Büyüt / küçült" aria-label="Diyagramı büyüt">⤢</button></div>
     <div class="hint" id="hint"></div>
     <div class="toast" id="toast" aria-live="polite"></div>
+    <div class="brread" id="brread" hidden><b></b><span class="w"></span><small></small></div>
   </div>
   <aside id="panel">
     <div class="idcard">
@@ -260,6 +281,11 @@ a{color:inherit}
       <div id="foxstate" class="note"></div>
     </section>
     <section id="sec-classic"><h2>Klasik değişmezler</h2><dl class="kv" id="classic"></dl></section>
+    <section id="sec-braid"><h2>Örgü laboratuvarı <small>Alexander ve Markov</small></h2>
+      <p class="note">Bir örgüye üreteç ekledikçe kapanışı değişir ve düğüm yeniden tanınır. Eşlenik ve kararlılaştırma (Markov hamleleri) düğümü değiştirmez. <b>Örgüye dönüştür</b> ekrandaki düğümü bir eksen etrafında sarar ve sözcüğünü okur.</p>
+      <div class="surfbtns"><button class="btn" id="brConv2">Ekrandakini örgüye dönüştür</button><button class="btn" id="brStart">Tanınan düğümün örgüsüyle başla</button><button class="btn" id="brEmpty">Boş örgü</button></div>
+      <div id="brlab"></div>
+    </section>
     <section id="sec-surf"><h2>Yüzey, lif ve tümleyen <small>Seifert matrisinden</small></h2>
       <div class="surfbtns"><button class="btn" id="seifbtn" aria-pressed="false">Seifert yüzeyini göster</button><button class="btn" id="genbtn" aria-pressed="false">H₁ üreteçleri</button><button class="btn" id="seifbraid">Örgüden kanonik yüzey</button></div>
       <p class="note">Yüzey, tahtadaki gölge diyagramından Seifert algoritmasıyla kurulur: her Seifert çemberi bir disk, her kesişim yarım bükümlü bir bant. Turuncu yüz pozitif, mavi yüz negatif taraftır.</p>
@@ -1147,16 +1173,19 @@ var GEO = (function () {
       for (let i = 0; i < n; i++) { const p = [P[3 * i], P[3 * i + 1], P[3 * i + 2]]; X[i] = dot(p, B.e1); Y[i] = dot(p, B.e2); H[i] = dot(p, B.d); } return { X, Y, H, n }; });
     let segLen = 0, cnt = 0, minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
     for (const q of proj) for (let i = 0; i < q.n; i++) { const j = (i + 1) % q.n; segLen += Math.hypot(q.X[j] - q.X[i], q.Y[j] - q.Y[i]); cnt++; minx = Math.min(minx, q.X[i]); maxx = Math.max(maxx, q.X[i]); miny = Math.min(miny, q.Y[i]); maxy = Math.max(maxy, q.Y[i]); }
-    const cs = Math.max(1e-6, 2.0 * segLen / Math.max(1, cnt));
-    const grid = new Map(); const segs = [];
+    const cs = Math.max(1e-6, 2.0 * segLen / Math.max(1, cnt), Math.hypot(maxx - minx, maxy - miny) / 256);
+    const grid = new Map(); const segs = [], lo = [];
     proj.forEach((q, c) => { for (let i = 0; i < q.n; i++) { const j = (i + 1) % q.n; const id = segs.length; segs.push([c, i, j]);
       const x0 = Math.floor((Math.min(q.X[i], q.X[j]) - minx) / cs), x1 = Math.floor((Math.max(q.X[i], q.X[j]) - minx) / cs), y0 = Math.floor((Math.min(q.Y[i], q.Y[j]) - miny) / cs), y1 = Math.floor((Math.max(q.Y[i], q.Y[j]) - miny) / cs);
-      for (let gx = x0; gx <= x1; gx++) for (let gy = y0; gy <= y1; gy++) { const k = gx * 100003 + gy; let a = grid.get(k); if (!a) { a = []; grid.set(k, a); } a.push(id); } } });
-    const seen = new Set(), out = [];
-    for (const arr of grid.values()) {
+      lo.push(x0, y0);
+      for (let gx = x0; gx <= x1; gx++) for (let gy = y0; gy <= y1; gy++) { const k = gx * 100003 + gy; let a = grid.get(k); if (!a) { a = { gx, gy, arr: [] }; grid.set(k, a); } a.arr.push(id); } } });
+    const out = [];
+    for (const cell of grid.values()) {
+      const arr = cell.arr;
       for (let a = 0; a < arr.length; a++) for (let b = a + 1; b < arr.length; b++) {
         let s1 = arr[a], s2 = arr[b]; if (s1 > s2) { const t = s1; s1 = s2; s2 = t; }
-        const key = s1 * 1048576 + s2; if (seen.has(key)) continue; seen.add(key);
+        // test each pair once: in the first cell their boxes share
+        if (Math.max(lo[2 * s1], lo[2 * s2]) !== cell.gx || Math.max(lo[2 * s1 + 1], lo[2 * s2 + 1]) !== cell.gy) continue;
         const [c1, i1, j1] = segs[s1], [c2, i2, j2] = segs[s2];
         if (c1 === c2 && (i1 === i2 || j1 === i2 || j2 === i1)) continue;
         const q1 = proj[c1], q2 = proj[c2];
@@ -1390,7 +1419,7 @@ var GEO = (function () {
       this.r = opt.r; this.h = opt.h; this.comps = comps.map(P => resampleClosed(P, this.h));
       this.tags = this.comps.map(P => new Array(npts(P)).fill(-1));
       this.grabs = []; this.relax = false; this.tighten = false; this.guard = true; this.collide = true; this.blocked = 0; this.passages = 0;
-      this.settle = 30; this.smooth = 0.06; this.version = 0;
+      this.settle = 30; this.smooth = 0.06; this.version = 0; this.fair = 0;
     }
     setComps(comps, keepTags) { this.comps = comps.map(P => resampleClosed(P, this.h)); this.tags = this.comps.map(P => new Array(npts(P)).fill(-1)); this.grabs = []; this.settle = 40; this.version++; }
     totalN() { return this.comps.reduce((s, P) => s + npts(P), 0); }
@@ -1420,9 +1449,9 @@ var GEO = (function () {
       return out;
     }
     step(nsub) {
-      const active = this.grabs.length || this.relax || this.tighten || this.settle > 0;
+      const active = this.grabs.length || this.relax || this.tighten || this.settle > 0 || this.fair > 0;
       if (!active) return false;
-      if (this.settle > 0) this.settle--;
+      if (this.settle > 0) this.settle--; if (this.fair > 0) this.fair--;
       const r = this.r, h = this.h, D = 2 * r, maxStep = 0.32 * r;
       for (let sub = 0; sub < nsub; sub++) {
         const old = this.comps.map(P => P.slice());
@@ -1435,7 +1464,7 @@ var GEO = (function () {
         }
         // 2. smoothing (bi-Laplacian when idle, Laplacian when tightening)
         this.comps.forEach((P, c) => { const n = npts(P), Q = P.slice(), w = im[c];
-          const kL = this.tighten ? 0.22 : 0, kB = this.smooth;
+          const kL = this.tighten ? 0.22 : this.relax ? 0.04 : this.fair > 0 ? 0.05 : 0, kB = this.relax || this.fair > 0 ? Math.max(this.smooth, this.fair > 0 ? 0.16 : 0.1) : this.smooth;
           const Lmin = 26 * r; const shrinkOK = curveLength(P) > Lmin;
           for (let i = 0; i < n; i++) { if (w[i] < 0.3) continue;
             const a2 = (i - 2 + n) % n, a = (i - 1 + n) % n, b = (i + 1) % n, b2 = (i + 2) % n;
@@ -1467,10 +1496,15 @@ var GEO = (function () {
           for (const id of a) { const [c2, j] = pts[id]; if (c2 === c) { const d = Math.abs(i - j); if (Math.min(d, n - d) <= K) continue; }
             const Q = this.comps[c2]; const ex = x - Q[3 * j], ey = y - Q[3 * j + 1], ez = z - Q[3 * j + 2]; const d = Math.hypot(ex, ey, ez); if (d > Rc || d < 1e-9) continue;
             const f = (Rc / d - 1) * (Rc / d - 1) * 0.0025 * r / d; F[c][3 * i] += ex * f; F[c][3 * i + 1] += ey * f; F[c][3 * i + 2] += ez * f; } }
-        F[c][3 * i] += (cx - x) * 0.002; F[c][3 * i + 1] += (cy - y) * 0.002; F[c][3 * i + 2] += (cz - z) * 0.002; });
+      });
+      // no net drift (a centring pull compresses the rope and makes it crumple)
+      { let sx = 0, sy = 0, sz = 0, nn = 0; F.forEach((Fc) => { for (let i = 0; i < Fc.length; i += 3) { sx += Fc[i]; sy += Fc[i + 1]; sz += Fc[i + 2]; nn++; } }); sx /= nn; sy /= nn; sz /= nn; F.forEach((Fc) => { for (let i = 0; i < Fc.length; i += 3) { Fc[i] -= sx; Fc[i + 1] -= sy; Fc[i + 2] -= sz; } }); }
+      // low-pass the force along each strand: point-to-point differences in repulsion are what make the rope zigzag
+      F.forEach((Fc, c) => { const n = npts(this.comps[c]); for (let pass = 0; pass < 3; pass++) { const G = Fc.slice(); for (let i = 0; i < n; i++) { const a = (i - 1 + n) % n, b = (i + 1) % n, a2 = (i - 2 + n) % n, b2 = (i + 2) % n; for (let k = 0; k < 3; k++) Fc[3 * i + k] = (G[3 * a2 + k] + 2 * G[3 * a + k] + 3 * G[3 * i + k] + 2 * G[3 * b + k] + G[3 * b2 + k]) / 9; } } });
       this.comps.forEach((P, c) => { const n = npts(P); for (let i = 0; i < n; i++) { const w = im[c][i]; let fx = F[c][3 * i], fy = F[c][3 * i + 1], fz = F[c][3 * i + 2]; const l = Math.hypot(fx, fy, fz), mx = 0.2 * r; if (l > mx) { fx *= mx / l; fy *= mx / l; fz *= mx / l; } P[3 * i] += fx * w; P[3 * i + 1] += fy * w; P[3 * i + 2] += fz * w; }
-        // spacing constraint
-        for (let it = 0; it < 2; it++) for (let i = 0; i < n; i++) { const j = (i + 1) % n; const dx = P[3 * j] - P[3 * i], dy = P[3 * j + 1] - P[3 * i + 1], dz = P[3 * j + 2] - P[3 * i + 2]; const l = Math.hypot(dx, dy, dz) || 1; const corr = 0.25 * (l - h) / l; const wi = im[c][i], wj = im[c][j];
+        // spacing constraint: equalise spacing towards the current mean (never lengthen the curve, which would buckle it)
+        const hm = curveLength(P) / n;
+        for (let it = 0; it < 2; it++) for (let i = 0; i < n; i++) { const j = (i + 1) % n; const dx = P[3 * j] - P[3 * i], dy = P[3 * j + 1] - P[3 * i + 1], dz = P[3 * j + 2] - P[3 * i + 2]; const l = Math.hypot(dx, dy, dz) || 1; const corr = 0.25 * (l - hm) / l; const wi = im[c][i], wj = im[c][j];
           P[3 * i] += dx * corr * wi; P[3 * i + 1] += dy * corr * wi; P[3 * i + 2] += dz * corr * wi; P[3 * j] -= dx * corr * wj; P[3 * j + 1] -= dy * corr * wj; P[3 * j + 2] -= dz * corr * wj; } });
     }
     collideStep(im, D, pairs, S) {
@@ -1605,7 +1639,12 @@ var SF = (function () {
       }
       out.push(at(s1)); return out;
     }
-    return { n, X, Y, cum, L, at, sOfT, between };
+    function betweenS(s0, s1, h) { // like between, also returning the arclength of each point
+      const pts = [at(s0)], ss = [s0]; const w0 = wrap(s0); let off = s0 - w0, i = seg(w0) + 1, last = s0;
+      for (let guard = 0; guard < 4 * n + 8; guard++) { if (i >= n) { i = 0; off += L; } const v = cum[i] + off; if (v >= s1) break; if (v - last >= h && s1 - v >= 0.5 * h) { pts.push([X[i], Y[i]]); ss.push(v); last = v; } i++; }
+      pts.push(at(s1)); ss.push(s1); return [pts, ss];
+    }
+    return { n, X, Y, cum, L, at, sOfT, between, betweenS };
   }
   const circDist = (a, b, L) => { const d = Math.abs(a - b) % L; return Math.min(d, L - d); };
   function area2(P) { let a = 0; for (let i = 0, n = P.length; i < n; i++) { const p = P[i], q = P[(i + 1) % n]; a += p[0] * q[1] - q[0] * p[1]; } return a / 2; }
@@ -1659,6 +1698,7 @@ var SF = (function () {
       X.rho = Math.min(X.rho, 0.3 * dmin);
     });
     const h = opt.h || Math.max(D / 320, 1e-9);
+    const KV = 4;
     // edges between consecutive passages
     const edges = [];
     pass.forEach((l, c) => { const m = l.length, L = C[c].L;
@@ -1691,46 +1731,74 @@ var SF = (function () {
     const M = opt.M || 10;
     K.forEach((X) => {
       X.c1 = X.pa.eIn.circ; X.c2 = X.pb.eIn.circ;
-      const z1 = circles[X.c1].z, z2 = circles[X.c2].z, r = X.rho, del = 0.3 * r, sa = X.overA ? 1 : -1;
+      const z1 = circles[X.c1].z, z2 = circles[X.c2].z, r = X.rho, del = Math.max(0.3 * r, opt.bump || 0), sa = X.overA ? 1 : -1;
       const ca = C[X.pa.c], cb = C[X.pb.c]; X.a3 = []; X.b3 = [];
       for (let i = 0; i <= M; i++) { const u = i / M, bump = del * Math.sin(Math.PI * u);
         const pa = ca.at(X.pa.s - r + 2 * r * u), pb = cb.at(X.pb.s - r + 2 * r * u);
         X.a3.push([pa[0], pa[1], z1 + (z2 - z1) * u + sa * bump]); X.b3.push([pb[0], pb[1], z2 + (z1 - z2) * u - sa * bump]); }
     });
     const S = (X, i, v) => { const a = X.a3[i], b = X.b3[M - i]; return [a[0] + (b[0] - a[0]) * v, a[1] + (b[1] - a[1]) * v, a[2] + (b[2] - a[2]) * v]; };
-    // ---- mesh ----
+    // ---- mesh (conforming: bands share the chord vertices of their discs) ----
     const pos = [], idx = [], kind = [];
     circles.forEach((ci) => {
-      const base = pos.length / 3; ci.P.forEach((p) => pos.push(p[0], p[1], ci.z));
-      ci.tris = ci.P.length >= 3 ? earcut(ci.P) : []; ci.tris.forEach((t) => { idx.push(base + t[0], base + t[1], base + t[2]); kind.push(0); });
+      ci.tris = ci.P.length >= 3 ? earcut(ci.P) : []; // used for paths of the H1 generators
+      // display polygon: chords subdivided so that the bands share their vertices
+      const starts = new Map(); for (const key in ci.chord) starts.set(ci.chord[key], +key);
+      const Pm = [], chordM = {}; const np = ci.P.length;
+      for (let i = 0; i < np; i++) { Pm.push(ci.P[i]); if (starts.has(i)) { chordM[starts.get(i)] = Pm.length - 1; const A = ci.P[i], Bq = ci.P[(i + 1) % np]; for (let j = 1; j < KV; j++) Pm.push([A[0] + (Bq[0] - A[0]) * j / KV, A[1] + (Bq[1] - A[1]) * j / KV]); } }
+      ci.Pm = Pm; ci.chordM = chordM; ci.base = pos.length / 3; Pm.forEach((p) => pos.push(p[0], p[1], ci.z));
+      const tm = Pm.length >= 3 ? earcut(Pm) : []; tm.forEach((t) => { idx.push(ci.base + t[0], ci.base + t[1], ci.base + t[2]); kind.push(0); });
     });
-    const KV = 4;
     K.forEach((X) => {
-      const base = pos.length / 3;
-      for (let i = 0; i <= M; i++) for (let j = 0; j <= KV; j++) { const p = S(X, i, j / KV); pos.push(p[0], p[1], p[2]); }
-      const id = (i, j) => base + i * (KV + 1) + j;
-      for (let i = 0; i < M; i++) for (let j = 0; j < KV; j++) { idx.push(id(i, j), id(i + 1, j), id(i + 1, j + 1), id(i, j), id(i + 1, j + 1), id(i, j + 1)); kind.push(1, 1); }
+      const c1 = circles[X.c1], c2 = circles[X.c2], cs1 = c1.chordM[2 * X.k], cs2 = c2.chordM[2 * X.k + 1], n1 = c1.Pm.length, n2 = c2.Pm.length;
+      const ids = [];
+      for (let i = 0; i <= M; i++) { const col = [];
+        for (let j = 0; j <= KV; j++) {
+          if (i === 0) col.push(c1.base + (cs1 + j) % n1);
+          else if (i === M) col.push(c2.base + (cs2 + KV - j) % n2);
+          else { const p = S(X, i, j / KV); col.push(pos.length / 3); pos.push(p[0], p[1], p[2]); }
+        } ids.push(col); }
+      for (let i = 0; i < M; i++) for (let j = 0; j < KV; j++) { idx.push(ids[i][j], ids[i + 1][j], ids[i + 1][j + 1], ids[i][j], ids[i + 1][j + 1], ids[i][j + 1]); kind.push(1, 1); }
     });
-    // ---- boundary (the knot on the surface), one polyline per component ----
+    const meshTopo = topology(idx);
+    // ---- boundary (the knot on the surface), one polyline per component, with the arclength of each point ----
+    const boundaryS = [];
     const boundary = pass.map((l, c) => {
-      const out = []; const push = (x, y, z) => { const n = out.length; if (n >= 3 && hyp(out[n - 3] - x, out[n - 2] - y, out[n - 1] - z) < 1e-12) return; out.push(x, y, z); };
-      if (!l.length) { const e = edges.find((ee) => ee.c === c && ee.free); const z = circles[e.circ].z; C[c].between(0, C[c].L, h).slice(0, -1).forEach((p) => push(p[0], p[1], z)); return out; }
-      for (const p of l) { const e = p.eOut, z = circles[e.circ].z; C[c].between(e.s0, e.s1, h).forEach((q) => push(q[0], q[1], z));
-        const q = e.to, X = K[q.k], arr = q.st === 0 ? X.a3 : X.b3; for (let i = 1; i < M; i++) push(arr[i][0], arr[i][1], arr[i][2]); }
-      return out;
+      const out = [], os = []; const push = (x, y, z, sv) => { const n = out.length; if (n >= 3 && hyp(out[n - 3] - x, out[n - 2] - y, out[n - 1] - z) < 1e-12) return; out.push(x, y, z); os.push(sv); };
+      if (!l.length) { const e = edges.find((ee) => ee.c === c && ee.free); const z = circles[e.circ].z; const [pts, ss] = C[c].betweenS(0, C[c].L, h); pts.slice(0, -1).forEach((p, k) => push(p[0], p[1], z, ss[k])); boundaryS.push(os); return out; }
+      for (const p of l) { const e = p.eOut, z = circles[e.circ].z; const [pts, ss] = C[c].betweenS(e.s0, e.s1, h); pts.forEach((q, k) => push(q[0], q[1], z, ss[k]));
+        const q = e.to, X = K[q.k], arr = q.st === 0 ? X.a3 : X.b3; for (let i = 1; i < M; i++) push(arr[i][0], arr[i][1], arr[i][2], q.s - X.rho + 2 * X.rho * i / M); }
+      boundaryS.push(os); return out;
     });
     const nComp = (() => { const par = circles.map((_, i) => i), f = (a) => (par[a] === a ? a : (par[a] = f(par[a]))); K.forEach((X) => { par[f(X.c1)] = f(X.c2); }); return new Set(circles.map((_, i) => f(i))).size; })();
     const s = circles.length, c = K.length, mu = C.length, chi = s - c;
-    const surf = { s, c, mu, chi, nComp, genus: (2 * nComp - chi - mu) / 2, maxDepth, Hs, rho0, D,
-      pos: new Float32Array(pos), idx: new Uint32Array(idx), kind: new Uint8Array(kind), boundary: boundary.map((b) => new Float32Array(b)) };
+    const surf = { s, c, mu, chi, nComp, genus: (2 * nComp - chi - mu) / 2, maxDepth, Hs, rho0, D, mesh: meshTopo,
+      pos: new Float32Array(pos), idx: new Uint32Array(idx), kind: new Uint8Array(kind), boundary: boundary.map((b) => new Float32Array(b)), boundaryS: boundaryS.map((b, c) => Float64Array.from(b, (v) => ((v % C[c].L) + C[c].L) % C[c].L)), compL: C.map((q) => q.L) };
     if (opt.debug) { surf.circles = circles; surf.K = K; }
     if (opt.matrix === false) return surf;
-    try { Object.assign(surf, seifertMatrix(circles, K, S, M, opt)); } catch (err) { surf.matrixErr = String(err && err.message || err); }
+    try { Object.assign(surf, seifertMatrix(circles, K, S, M, opt, KV)); } catch (err) { surf.matrixErr = String(err && err.message || err); }
     return surf;
   }
 
+  /* ---------- Euler characteristic, boundary and orientability of a triangle mesh ---------- */
+  function topology(idx) {
+    const used = new Set(idx), E = new Map(), dir = new Map(); let bad = 0;
+    for (let t = 0; t < idx.length; t += 3) for (let e = 0; e < 3; e++) {
+      const a = idx[t + e], b = idx[t + (e + 1) % 3]; if (a === b) { bad++; continue; }
+      const k = a < b ? a + ',' + b : b + ',' + a; E.set(k, (E.get(k) || 0) + 1); const dk = a + '>' + b; dir.set(dk, (dir.get(dk) || 0) + 1);
+    }
+    let orient = true, manifold = true; const bd = new Map();
+    for (const [k, n] of E) { if (n > 2) manifold = false; const [a, b] = k.split(',').map(Number);
+      if (n === 2 && ((dir.get(a + '>' + b) || 0) !== 1 || (dir.get(b + '>' + a) || 0) !== 1)) orient = false;
+      if (n === 1) { (bd.get(a) || bd.set(a, []).get(a)).push(b); (bd.get(b) || bd.set(b, []).get(b)).push(a); } }
+    // boundary components = connected components of the boundary graph
+    const seen = new Set(); let b = 0; for (const v of bd.keys()) { if (seen.has(v)) continue; b++; const st = [v]; seen.add(v); while (st.length) { const x = st.pop(); for (const y of bd.get(x)) if (!seen.has(y)) { seen.add(y); st.push(y); } } }
+    const V = used.size, Ec = E.size, F = idx.length / 3;
+    return { V, E: Ec, F, chi: V - Ec + F, b, orientable: orient, manifold: manifold && !bad };
+  }
+
   /* ---------- H1 basis (Seifert graph cycles) and Seifert matrix ---------- */
-  function seifertMatrix(circles, K, S, M, opt) {
+  function seifertMatrix(circles, K, S, M, opt, KV) {
     const nv = circles.length, adj = circles.map(() => []);
     K.forEach((X) => { adj[X.c1].push({ k: X.k, to: X.c2, dir: 1 }); if (X.c1 !== X.c2) adj[X.c2].push({ k: X.k, to: X.c1, dir: -1 }); });
     const par = new Int32Array(nv).fill(-2), parEdge = new Array(nv), depth = new Int32Array(nv), tree = new Set();
@@ -1763,8 +1831,8 @@ var SF = (function () {
       ci.tris.forEach((t, ti) => { for (let e = 0; e < 3; e++) { const kk = key(t[e], t[(e + 1) % 3]); if (!em.has(kk)) em.set(kk, []); em.get(kk).push(ti); } });
       ci.tadj = { em, key }; return ci.tadj;
     }
-    function diskPath(ci, cs, pA, ce, pB, f) { // from point pA on chord starting at cs to pB on chord starting at ce
-      const np = ci.P.length, T = triInfo(ci), tA = (T.em.get(T.key(cs, (cs + 1) % np)) || [])[0], tB = (T.em.get(T.key(ce, (ce + 1) % np)) || [])[0];
+    function diskPath(ci, cs, pA, ce, pB, f) { // from point pA on the chord sub-edge starting at cs to pB on the sub-edge starting at ce
+      const np = ci.P.length, T = triInfo(ci), tA = (T.em.get(T.key(cs % np, (cs + 1) % np)) || [])[0], tB = (T.em.get(T.key(ce % np, (ce + 1) % np)) || [])[0];
       if (tA === undefined || tB === undefined || tA === tB) return [pA, pB];
       const prevT = new Map([[tA, -1]]), via = new Map(), Q = [tA];
       while (Q.length) { const t = Q.shift(); if (t === tB) break; const tr = ci.tris[t];
@@ -1854,7 +1922,7 @@ var SF = (function () {
   }
   function matMul(X, Y) { const n = X.length, m = Y[0].length, l = Y.length, R = []; for (let i = 0; i < n; i++) { const r = new Array(m).fill(0n); for (let k = 0; k < l; k++) { const x = X[i][k]; if (x === 0n) continue; for (let j = 0; j < m; j++) r[j] += x * Y[k][j]; } R.push(r); } return R; }
   const ident = (n) => Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => (i === j ? 1n : 0n)));
-  const tr = (A) => A[0].map((_, j) => A.map((r) => r[j]));
+  const tr = (A) => (A.length ? A[0].map((_, j) => A.map((r) => r[j])) : []);
   function bgcd(a, b) { a = babs(a); b = babs(b); while (b) { const t = a % b; a = b; b = t; } return a; }
   function inverseUnimodular(Ain) { // fraction-free Gauss–Jordan with row-content reduction; null unless the inverse is integral
     const n = Ain.length, M = Ain.map((r, i) => [...r.map(B), ...Array.from({ length: n }, (_, j) => (i === j ? 1n : 0n))]);
@@ -1985,6 +2053,397 @@ var SF = (function () {
   return { build, linkNum, fromMatrix, alexFromV, snf, detB, singularityLink, earcut };
 })();
 if (typeof module !== 'undefined') module.exports = SF;
+
+/* =====================================================================
+   rmoves.js — Reidemeister moves performed on the rope itself.
+   A move is found on the diagram (projection along B.d), and carried out
+   by moving one arc of the rope in space; the arc keeps its height above
+   (or below) the strands it slides across, so the motion is an isotopy.
+   ===================================================================== */
+var RM = (function () {
+  'use strict';
+  const hyp = Math.hypot;
+  const npts = (P) => P.length / 3;
+  function proj(B, x, y, z) { return [x * B.e1[0] + y * B.e1[1] + z * B.e1[2], x * B.e2[0] + y * B.e2[1] + z * B.e2[2], x * B.d[0] + y * B.d[1] + z * B.d[2]]; }
+  function unproj(B, u, v, h) { return [u * B.e1[0] + v * B.e2[0] + h * B.d[0], u * B.e1[1] + v * B.e2[1] + h * B.d[1], u * B.e1[2] + v * B.e2[2] + h * B.d[2]]; }
+  function pip(p, P) { let inside = false; for (let i = 0, n = P.length, j = n - 1; i < n; j = i++) { const a = P[i], b = P[j]; if ((a[1] > p[1]) !== (b[1] > p[1]) && p[0] < (b[0] - a[0]) * (p[1] - a[1]) / (b[1] - a[1]) + a[0]) inside = !inside; } return inside; }
+  const fwd = (a, b, n) => (((b - a) % n) + n) % n; // forward index distance
+
+  /* projected copy of the comps and the crossings */
+  function analyse(comps, B) {
+    const Q = comps.map((P) => { const n = npts(P), X = new Float64Array(n), Y = new Float64Array(n), H = new Float64Array(n); for (let i = 0; i < n; i++) { const q = proj(B, P[3 * i], P[3 * i + 1], P[3 * i + 2]); X[i] = q[0]; Y[i] = q[1]; H[i] = q[2]; } return { n, X, Y, H }; });
+    const { cr } = GEO.findCrossings(comps, B);
+    const pass = comps.map(() => []);
+    cr.forEach((x, k) => { pass[x.a.c].push({ k, t: x.a.t, over: !!x.overA, role: 'a' }); pass[x.b.c].push({ k, t: x.b.t, over: !x.overA, role: 'b' }); });
+    pass.forEach((l) => l.sort((p, q) => p.t - q.t));
+    return { Q, cr, pass };
+  }
+  // the arc of comp c from parameter t0 forward to t1 (vertex indices strictly inside)
+  function arcIdx(n, t0, t1) { const out = []; let i = Math.floor(t0) + 1; const L = fwd(t0, t1, n); for (let s = 0; s < n && fwd(t0, i, n) < L; s++, i = (i + 1) % n) out.push(i % n); return out; }
+  function at2(Qc, t) { const n = Qc.n, i = Math.floor(t) % n, j = (i + 1) % n, u = t - Math.floor(t); return [Qc.X[i] + (Qc.X[j] - Qc.X[i]) * u, Qc.Y[i] + (Qc.Y[j] - Qc.Y[i]) * u, Qc.H[i] + (Qc.H[j] - Qc.H[i]) * u]; }
+  function polyOf(Qc, t0, t1) { const pts = [at2(Qc, t0)]; for (const i of arcIdx(Qc.n, t0, t1)) pts.push([Qc.X[i], Qc.Y[i], Qc.H[i]]); pts.push(at2(Qc, t1)); return pts; }
+  // is any vertex not belonging to the excluded index sets inside polygon (2D)?
+  function regionCount(A, poly, excl) { // [points inside the polygon, points considered]
+    let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9; for (const p of poly) { x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
+    let ins = 0, tot = 0;
+    for (let c = 0; c < A.Q.length; c++) { const Qc = A.Q[c], ex = excl[c]; for (let i = 0; i < Qc.n; i++) { if (ex && ex.has(i)) continue; tot++; const x = Qc.X[i], y = Qc.Y[i]; if (x < x0 || x > x1 || y < y0 || y > y1) continue; if (pip([x, y], poly)) ins++; } }
+    return [ins, tot];
+  }
+  // the empty face: 'in' (the bounded region) or 'out' (the unbounded one: a move on S², done above everything else)
+  function emptyFace(A, poly, excl) { const [ins, tot] = regionCount(A, poly, excl); return ins === 0 ? 'in' : ins === tot ? 'out' : null; }
+  function regionEmpty(A, poly, excl) { return regionCount(A, poly, excl)[0] === 0; }
+  const idxSet = (n, t0, t1, pad) => { const s = new Set(); const i0 = Math.floor(t0) - pad, L = fwd(t0, t1, n) + 2 * pad + 2; for (let k = 0; k <= L; k++) s.add((((i0 + k) % n) + n) % n); return s; };
+
+  /* ---------- candidates ---------- */
+  function candidates(comps, B, opt) {
+    opt = opt || {}; const A = analyse(comps, B), out = { r1: [], r2: [], r3: [], A };
+    const { pass, cr, Q } = A;
+    // R1: consecutive passages of one crossing on one strand, loop with nothing inside
+    pass.forEach((l, c) => { const m = l.length, n = Q[c].n; for (let j = 0; j < m; j++) { const p = l[j], q = l[(j + 1) % m]; if (m < 2 || p.k !== q.k || (m === 2 && j === 1 && l[0].k === l[1].k && false)) continue;
+      const poly = polyOf(Q[c], p.t, q.t); if (poly.length < 4) continue; const ex = Q.map(() => null); ex[c] = idxSet(n, p.t, q.t, 2);
+      const face = emptyFace(A, poly, ex); if (face) out.r1.push({ type: 'R1', face, c, t0: p.t, t1: q.t, k: p.k, x: cr[p.k].x, y: cr[p.k].y, size: poly.length + (face === 'out' ? 1e5 : 0) }); } });
+    out.r1.sort((a, b) => a.size - b.size);
+    // R2 and R3 need the arcs between consecutive passages
+    const arcs = []; pass.forEach((l, c) => { const m = l.length; for (let j = 0; j < m; j++) { const p = l[j], q = l[(j + 1) % m]; if (m < 2) continue; arcs.push({ c, p, q }); } });
+    // R2: arcs X→Y on two strands, same role at both ends on each strand, bigon empty
+    const byPair = new Map(); arcs.forEach((a) => { if (a.p.k === a.q.k) return; const key = Math.min(a.p.k, a.q.k) + ',' + Math.max(a.p.k, a.q.k); if (!byPair.has(key)) byPair.set(key, []); byPair.get(key).push(a); });
+    for (const [, L] of byPair) {
+      for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
+        const a = L[i], b = L[j]; if (a.p.over !== a.q.over || b.p.over !== b.q.over || a.p.over === b.p.over) continue;
+        // the two arcs must use different passages
+        if ((a.c === b.c) && (Math.abs(a.p.t - b.p.t) < 1e-9)) continue;
+        const pa = polyOf(Q[a.c], a.p.t, a.q.t), pb = polyOf(Q[b.c], b.p.t, b.q.t); const poly = pa.concat(a.p.k === b.p.k ? pb.slice().reverse() : pb);
+        const ex = Q.map(() => null); ex[a.c] = idxSet(Q[a.c].n, a.p.t, a.q.t, 2); if (!ex[b.c]) ex[b.c] = new Set(); for (const v of idxSet(Q[b.c].n, b.p.t, b.q.t, 2)) ex[b.c].add(v);
+        const face = emptyFace(A, poly, ex); if (!face) continue;
+        const top = a.p.over ? a : b, bot = a.p.over ? b : a;
+        out.r2.push({ type: 'R2', face, poly, move: top, fixed: bot, ks: [a.p.k, a.q.k], x: (cr[a.p.k].x + cr[a.q.k].x) / 2, y: (cr[a.p.k].y + cr[a.q.k].y) / 2, size: pa.length + pb.length + (face === 'out' ? 1e5 : 0) });
+      }
+    }
+    out.r2.sort((a, b) => a.size - b.size);
+    // R3: triangle of three arcs, each between two different crossings, one strand over (or under) at both ends
+    if (opt.r3 !== false) {
+      const end = new Map(); arcs.forEach((a) => { if (a.p.k === a.q.k) return; for (const k of [a.p.k, a.q.k]) { if (!end.has(k)) end.set(k, []); end.get(k).push(a); } });
+      const seen = new Set();
+      for (const a of arcs) {
+        if (a.p.k === a.q.k || a.p.over !== a.q.over) continue; // a = moving arc, same role at both ends
+        const X = a.p.k, Y = a.q.k;
+        for (const b of end.get(X) || []) { if (b === a) continue; const Z = b.p.k === X ? b.q.k : b.p.k; if (Z === Y || Z === X) continue;
+          for (const d of end.get(Y) || []) { if (d === a || d === b) continue; const Z2 = d.p.k === Y ? d.q.k : d.p.k; if (Z2 !== Z) continue;
+            // b and d must be the other two strands (not a's strand at X / Y)
+            const key = [X, Y, Z].sort((u, v) => u - v).join(',') + ':' + a.c + ':' + a.p.t.toFixed(3); if (seen.has(key)) continue; seen.add(key);
+            const pa = polyOf(Q[a.c], a.p.t, a.q.t);
+            const bpoly = polyOf(Q[b.c], b.p.t, b.q.t), dpoly = polyOf(Q[d.c], d.p.t, d.q.t);
+            const fromY = d.p.k === Y ? dpoly : dpoly.slice().reverse(), toX = b.p.k === Z ? bpoly : bpoly.slice().reverse();
+            const poly = pa.concat(fromY, toX);
+            const ex = Q.map(() => null); for (const r of [a, b, d]) { if (!ex[r.c]) ex[r.c] = new Set(); for (const v of idxSet(Q[r.c].n, r.p.t, r.q.t, 2)) ex[r.c].add(v); }
+            if (!regionEmpty(A, poly, ex)) continue;
+            // b, d must be the other strands at X and Y, and two different strands at Z
+            const bX = b.p.k === X ? b.p : b.q, dY = d.p.k === Y ? d.p : d.q, bZ = b.p.k === Z ? b.p : b.q, dZ = d.p.k === Z ? d.p : d.q;
+            if (bX.role === a.p.role || dY.role === a.q.role || bZ.role === dZ.role) continue;
+            out.r3.push({ type: 'R3', move: a, b, d, X, Y, Z, x: cr[Z].x, y: cr[Z].y, size: poly.length });
+          } }
+      }
+      out.r3.sort((p, q) => p.size - q.size);
+    }
+    return out;
+  }
+
+  /* ---------- carrying out a move: returns new comps with the same point counts ---------- */
+  function hermite(p0, m0, p1, m1, u) { const u2 = u * u, u3 = u2 * u, h00 = 2 * u3 - 3 * u2 + 1, h10 = u3 - 2 * u2 + u, h01 = -2 * u3 + 3 * u2, h11 = u3 - u2; return [0, 1, 2].map((k) => h00 * p0[k] + h10 * m0[k] + h01 * p1[k] + h11 * m1[k]); }
+  function resamplePath(path, m) { // path: [[u,v,h]...] → m points evenly by 2D+h arclength
+    const L = [0]; for (let i = 1; i < path.length; i++) L.push(L[i - 1] + hyp(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1], path[i][2] - path[i - 1][2]));
+    const T = L[L.length - 1] || 1, out = []; let j = 0;
+    for (let s = 1; s <= m; s++) { const d = T * s / (m + 1); while (j < path.length - 2 && L[j + 1] < d) j++; const w = (d - L[j]) / ((L[j + 1] - L[j]) || 1); out.push([0, 1, 2].map((k) => path[j][k] + (path[j + 1][k] - path[j][k]) * w)); }
+    return out;
+  }
+  function neighbourGap(A, c, t) { const l = A.pass[c], n = A.Q[c].n; let g = n; for (const p of l) { const d = Math.min(fwd(t, p.t, n), fwd(p.t, t, n)); if (d > 1e-6) g = Math.min(g, d); } return g; }
+  function rewrite(comps, B, c, t0, t1, path) { // replace vertices strictly between t0 and t1 on comp c by path (projected coordinates), same count
+    const n = npts(comps[c]), idx = arcIdx(n, t0, t1), pts = resamplePath(path, idx.length), out = comps.map((P) => P.slice());
+    idx.forEach((i, k) => { const p = unproj(B, pts[k][0], pts[k][1], pts[k][2]); out[c][3 * i] = p[0]; out[c][3 * i + 1] = p[1]; out[c][3 * i + 2] = p[2]; });
+    return { comps: out, c, idx };
+  }
+  function perform(comps, B, mv, opt) {
+    opt = opt || {}; const r = opt.r || 0.011; const A = analyse(comps, B), Q = A.Q;
+    if (mv.type === 'R1') {
+      const c = mv.c, n = Q[c].n; const pad = Math.min(4, 0.4 * neighbourGap(A, c, mv.t0), 0.4 * neighbourGap(A, c, mv.t1));
+      const s0 = (mv.t0 - pad + n) % n, s1 = (mv.t1 + pad) % n; const a = at2(Q[c], s0), b = at2(Q[c], s1), a0 = at2(Q[c], (s0 - 1 + n) % n), b1 = at2(Q[c], (s1 + 1) % n);
+      const L = hyp(b[0] - a[0], b[1] - a[1]) + 1e-9; const ta = [a[0] - a0[0], a[1] - a0[1], 0], tb = [b1[0] - b[0], b1[1] - b[1], 0]; const na = hyp(ta[0], ta[1]) || 1, nb = hyp(tb[0], tb[1]) || 1;
+      const m0 = [ta[0] / na * L, ta[1] / na * L, b[2] - a[2]], m1 = [tb[0] / nb * L, tb[1] / nb * L, b[2] - a[2]];
+      const path = []; for (let s = 0; s <= 24; s++) path.push(hermite(a, m0, b, m1, s / 24));
+      const res = rewrite(comps, B, c, s0, s1, path); if (mv.face === 'out') res.stages = liftStages(comps, B, Q, res, 1, r, [mv.x, mv.y]); return res;
+    }
+    if (mv.type === 'R2') {
+      const a = mv.move, b = mv.fixed, c = a.c, n = Q[c].n; const sgn = a.p.over ? 1 : -1;
+      const pad = Math.min(4, 0.4 * neighbourGap(A, c, a.p.t), 0.4 * neighbourGap(A, c, a.q.t));
+      const s0 = (a.p.t - pad + n) % n, s1 = (a.q.t + pad) % n;
+      // the fixed arc, oriented from crossing X (a.p.k) to Y (a.q.k)
+      let fp = polyOf(Q[b.c], b.p.t, b.q.t); if (b.p.k !== a.p.k) fp = fp.reverse();
+      // side away from the bigon: the moving arc's midpoint lies on the bigon side of the fixed arc
+      const len = fp.reduce((s, p, i) => (i ? s + hyp(p[0] - fp[i - 1][0], p[1] - fp[i - 1][1]) : 0), 0);
+      const off = Math.min(2.6 * r, 0.25 * len);
+      // offset towards the side of the fixed arc that is not the empty face
+      const mid = fp[fp.length >> 1], mo = fp[Math.max(0, (fp.length >> 1) - 1)], mq = fp[Math.min(fp.length - 1, (fp.length >> 1) + 1)];
+      let sx = -(mq[1] - mo[1]), sy = mq[0] - mo[0]; const sl = hyp(sx, sy) || 1; sx /= sl; sy /= sl;
+      let flip;
+      if (mv.face === 'out') flip = !pip([mid[0] + sx * 0.05 * off, mid[1] + sy * 0.05 * off], mv.poly || []); // out-face: go into the bounded side
+      else { const am = at2(Q[c], (a.p.t + fwd(a.p.t, a.q.t, n) / 2) % n); flip = (am[0] - mid[0]) * sx + (am[1] - mid[1]) * sy > 0; } // in-face: away from the moving arc
+      const path = [at2(Q[c], s0)];
+      fp.forEach((p, i) => { const q = fp[Math.min(fp.length - 1, i + 1)], o = fp[Math.max(0, i - 1)]; let tx = q[0] - o[0], ty = q[1] - o[1]; const tl = hyp(tx, ty) || 1; tx /= tl; ty /= tl; let nx = -ty, ny = tx;
+        if (flip) { nx = -nx; ny = -ny; } // left normal of the oriented fixed arc, or the right one
+        const w = Math.sin(Math.PI * Math.min(1, Math.max(0, i / (fp.length - 1)))); path.push([p[0] + nx * off, p[1] + ny * off, p[2] + sgn * (2.4 * r + 0.6 * r * w)]); });
+      path.push(at2(Q[c], s1));
+      const res = rewrite(comps, B, c, s0, s1, path); if (mv.face === 'out') res.stages = liftStages(comps, B, Q, res, sgn, r); return res;
+    }
+    if (mv.type === 'R3') {
+      const a = mv.move, c = a.c, n = Q[c].n, sgn = a.p.over ? 1 : -1, cr = A.cr;
+      const pad = Math.min(4, 0.4 * neighbourGap(A, c, a.p.t), 0.4 * neighbourGap(A, c, a.q.t));
+      const s0 = (a.p.t - pad + n) % n, s1 = (a.q.t + pad) % n;
+      const P0 = at2(Q[c], s0), P1 = at2(Q[c], s1), Xp = [cr[mv.X].x, cr[mv.X].y], Yp = [cr[mv.Y].x, cr[mv.Y].y], Zp = [cr[mv.Z].x, cr[mv.Z].y];
+      // continue the other two strands past Z: X' on the strand through X and Z, Y' on the strand through Y and Z
+      const k = 0.85; const Xq = [Zp[0] + (Zp[0] - Xp[0]) * k, Zp[1] + (Zp[1] - Xp[1]) * k], Yq = [Zp[0] + (Zp[0] - Yp[0]) * k, Zp[1] + (Zp[1] - Yp[1]) * k];
+      // heights: stay beyond every strand met
+      const hz = (cr[mv.Z].ha + cr[mv.Z].hb) / 2, ext = sgn > 0 ? Math.max(P0[2], P1[2], cr[mv.Z].ha, cr[mv.Z].hb) + 2.4 * r : Math.min(P0[2], P1[2], cr[mv.Z].ha, cr[mv.Z].hb) - 2.4 * r; void hz;
+      const ctrl = [P0, [Yq[0], Yq[1], ext], [Xq[0], Xq[1], ext], P1]; // along the moving strand the order of the two crossings reverses
+      const path = []; for (let i = 0; i < ctrl.length - 1; i++) { const p0 = ctrl[Math.max(0, i - 1)], p1 = ctrl[i], p2 = ctrl[i + 1], p3 = ctrl[Math.min(ctrl.length - 1, i + 2)];
+        for (let s = 0; s < 12; s++) { const u = s / 12; path.push([0, 1, 2].map((q) => 0.5 * ((2 * p1[q]) + (-p0[q] + p2[q]) * u + (2 * p0[q] - 5 * p1[q] + 4 * p2[q] - p3[q]) * u * u + (-p0[q] + 3 * p1[q] - 3 * p2[q] + p3[q]) * u * u * u))); } }
+      path.push(P1);
+      return rewrite(comps, B, c, s0, s1, path);
+    }
+    return null;
+  }
+
+  // for moves across the unbounded face: lift the arc above everything (keeping the part at the crossing), carry it over, lower it
+  function liftStages(comps, B, Q, res, sgn, r, keepNear) {
+    const c = res.c, idx = res.idx; let hmax = -1e9, hmin = 1e9; Q.forEach((q) => { for (let i = 0; i < q.n; i++) { hmax = Math.max(hmax, q.H[i]); hmin = Math.min(hmin, q.H[i]); } });
+    const level = sgn > 0 ? hmax + 5 * r : hmin - 5 * r;
+    const near = (u, v) => keepNear && hyp(u - keepNear[0], v - keepNear[1]) < 4 * r;
+    const lifted = comps.map((P) => P.slice()), moved = comps.map((P) => P.slice());
+    idx.forEach((i) => { const u = Q[c].X[i], v = Q[c].Y[i];
+      const fp = [res.comps[c][3 * i], res.comps[c][3 * i + 1], res.comps[c][3 * i + 2]]; const f = proj(B, fp[0], fp[1], fp[2]);
+      const keep = near(u, v), keepF = near(f[0], f[1]);
+      const pL = keep ? [comps[c][3 * i], comps[c][3 * i + 1], comps[c][3 * i + 2]] : unproj(B, u, v, level);
+      const pM = keepF ? fp : unproj(B, f[0], f[1], level);
+      for (let k = 0; k < 3; k++) { lifted[c][3 * i + k] = pL[k]; moved[c][3 * i + k] = pM[k]; } });
+    return [lifted, moved];
+  }
+
+  /* ---------- adding moves: R1+ (curl) and R2+ (finger) ---------- */
+  function fingerR2(comps, B, opt) {
+    opt = opt || {}; const r = opt.r || 0.011, rnd = opt.rnd || Math.random; const A = analyse(comps, B), Q = A.Q;
+    const all = []; Q.forEach((Qc, c) => { for (let i = 0; i < Qc.n; i += 3) all.push([c, i]); });
+    for (let tries = 0; tries < 60; tries++) {
+      const [c, i] = all[Math.floor(rnd() * all.length)]; const Qc = Q[c], n = Qc.n; const p = [Qc.X[i], Qc.Y[i]];
+      if (neighbourGap(A, c, i) < 8) continue;
+      // nearest point on another part of the rope
+      let best = null, bd = 1e9; Q.forEach((Qd, d) => { for (let j = 0; j < Qd.n; j++) { if (d === c && Math.min(fwd(i, j, n), fwd(j, i, n)) < 25) continue; const dd = hyp(Qd.X[j] - p[0], Qd.Y[j] - p[1]); if (dd < bd && dd > 4 * r) { bd = dd; best = [d, j]; } } });
+      if (!best || bd > 24 * r) continue; const [d, j] = best; const q = [Q[d].X[j], Q[d].Y[j]];
+      // nothing between p and q
+      let clear = true; Q.forEach((Qe, e) => { for (let k = 0; k < Qe.n && clear; k++) { if ((e === c && Math.min(fwd(i, k, n), fwd(k, i, n)) < 6) || (e === d && Math.min(fwd(j, k, Qe.n), fwd(k, j, Qe.n)) < 6)) continue; const vx = q[0] - p[0], vy = q[1] - p[1], L2 = vx * vx + vy * vy; const u = Math.max(0, Math.min(1, ((Qe.X[k] - p[0]) * vx + (Qe.Y[k] - p[1]) * vy) / L2)); if (hyp(p[0] + vx * u - Qe.X[k], p[1] + vy * u - Qe.Y[k]) < 2.5 * r) clear = false; } });
+      if (!clear) continue;
+      const over = rnd() < 0.5 ? 1 : -1; const W = Math.min(10, Math.floor(0.4 * neighbourGap(A, c, i)));
+      const reach = bd + 3.2 * r, dir = [(q[0] - p[0]) / bd, (q[1] - p[1]) / bd], zq = Q[d].H[j];
+      const s0 = (i - W + n) % n, s1 = (i + W) % n; const path = [];
+      for (let s = -W; s <= W; s++) { const k = (i + s + n) % n, w = 0.5 * (1 + Math.cos(Math.PI * s / W)), w2 = Math.pow(w, 0.6); path.push([Qc.X[k] + dir[0] * reach * w2, Qc.Y[k] + dir[1] * reach * w2, Qc.H[k] + (zq + over * 2.6 * r - Qc.H[k]) * Math.min(1, 1.6 * w)]); }
+      return Object.assign(rewrite(comps, B, c, s0, s1, path), { type: 'R2+', x: q[0], y: q[1] });
+    }
+    return null;
+  }
+
+  /* ---------- checking a move: crossing count and the Alexander polynomial ---------- */
+  function invariantKey(comps, B) { const { cr } = GEO.findCrossings(comps, B); const { G } = GEO.buildGauss(comps, cr); const S = KM.simplify(G); const a = KM.alexander(S); return { n: cr.length, alex: a[1].join(','), alexN: a[1].map((x) => -x).join(','), simp: S.sign.length }; }
+  function sameKnot(k0, k1) { return k0.alex === k1.alex || k0.alex === k1.alexN; }
+  const DELTA = { R1: -1, R2: -2, R3: 0, 'R1+': 1, 'R2+': 2 };
+  function check(before, after, B, type) { const k0 = before.key || invariantKey(before.comps, B), k1 = invariantKey(after, B); return { ok: k1.n - k0.n === DELTA[type] && sameKnot(k0, k1), k0, k1 }; }
+  // one step of simplification: R1, then R2, then an R3 that opens an R1 or R2
+  function simplifyStep(comps, B, opt) {
+    opt = opt || {}; const C = candidates(comps, B); const key = invariantKey(comps, B);
+    const tryMv = (mv) => { let res; try { res = perform(comps, B, mv, opt); } catch (e) { return null; } if (!res) return null; const ch = check({ comps, key }, res.comps, B, mv.type); return ch.ok ? Object.assign(res, { mv, key: ch.k1 }) : null; };
+    for (const mv of C.r1) { const r = tryMv(mv); if (r) return r; }
+    for (const mv of C.r2) { const r = tryMv(mv); if (r) return r; }
+    if (opt.r3 === false) return null;
+    const ok3 = [];
+    for (const mv of C.r3.slice(0, opt.maxR3 || 16)) { const r = tryMv(mv); if (!r) continue; const C2 = candidates(r.comps, B, { r3: false }); if (C2.r1.length || C2.r2.length) return r; ok3.push(r); }
+    if (!opt.allowBareR3 || !ok3.length) return null;
+    const rnd = opt.rnd || Math.random; return ok3[Math.floor(rnd() * ok3.length)];
+  }
+
+  return { analyse, candidates, perform, fingerR2, simplifyStep, check, invariantKey };
+})();
+if (typeof module !== 'undefined') module.exports = RM;
+
+/* =====================================================================
+   braid.js — Alexander's theorem, done on the rope: every arc that runs
+   backwards around an axis is lifted above (or lowered below) everything
+   it crosses and swung forwards around the axis. The result is a closed
+   braid; its word is read off by sweeping a ray around the axis.
+   Also: Markov simplification of braid words.
+   ===================================================================== */
+var BR = (function () {
+  'use strict';
+  const TAU = 2 * Math.PI;
+  const wrap = (a) => { a = (a + Math.PI) % TAU; if (a < 0) a += TAU; return a - Math.PI; };
+  function projAll(comps, B) { return comps.map((P) => { const n = P.length / 3, U = new Float64Array(n), V = new Float64Array(n), H = new Float64Array(n); for (let i = 0; i < n; i++) { const x = P[3 * i], y = P[3 * i + 1], z = P[3 * i + 2]; U[i] = x * B.e1[0] + y * B.e1[1] + z * B.e1[2]; V[i] = x * B.e2[0] + y * B.e2[1] + z * B.e2[2]; H[i] = x * B.d[0] + y * B.d[1] + z * B.d[2]; } return { n, U, V, H }; }); }
+  const unproj = (B, u, v, h) => [u * B.e1[0] + v * B.e2[0] + h * B.d[0], u * B.e1[1] + v * B.e2[1] + h * B.d[1], u * B.e1[2] + v * B.e2[2] + h * B.d[2]];
+  function winding(Q, o) { let w = 0; for (const q of Q) { for (let i = 0; i < q.n; i++) { const j = (i + 1) % q.n; w += wrap(Math.atan2(q.V[j] - o[1], q.U[j] - o[0]) - Math.atan2(q.V[i] - o[1], q.U[i] - o[0])); } } return w / TAU; }
+  // the axis is chosen to need the fewest reroutes: each backward run costs one swing per change of over/under role inside it
+  function chooseAxis(Q, pass, rank) {
+    let u0 = 1e9, v0 = 1e9, u1 = -1e9, v1 = -1e9; Q.forEach((q) => { for (let i = 0; i < q.n; i++) { u0 = Math.min(u0, q.U[i]); u1 = Math.max(u1, q.U[i]); v0 = Math.min(v0, q.V[i]); v1 = Math.max(v1, q.V[i]); } });
+    let best = null; const G = 20, cands = [];
+    for (let a = 1; a < G; a++) for (let b = 1; b < G; b++) {
+      const o = [u0 + (u1 - u0) * a / G, v0 + (v1 - v0) * b / G]; let dmin = 1e9; Q.forEach((q) => { for (let i = 0; i < q.n; i += 2) dmin = Math.min(dmin, Math.hypot(q.U[i] - o[0], q.V[i] - o[1])); });
+      const wr = winding(Q, o), w = Math.round(wr); if (w === 0) continue; const s = w < 0 ? -1 : 1;
+      let cost = 0;
+      Q.forEach((q, c) => { const th = new Float64Array(q.n); for (let i = 0; i < q.n; i++) th[i] = Math.atan2(q.V[i] - o[1], q.U[i] - o[0]);
+        const roles = new Map(); if (pass) for (const p of pass[c]) roles.set(Math.floor(p.t), p.over);
+        let inRun = false, last = null; for (let i = 0; i < q.n; i++) { const bad = s * wrap(th[(i + 1) % q.n] - th[i]) < -1e-6;
+          if (bad && !inRun) { cost++; inRun = true; last = null; } if (!bad) inRun = false;
+          if (bad && roles.has(i)) { const r = roles.get(i); if (last !== null && r !== last) cost++; last = r; } } });
+      const score = -cost * 10 + Math.min(dmin, 0.05) * 20 - Math.abs(w) * 0.01;
+      cands.push({ o, w, score, dmin, cost });
+    }
+    if (!cands.length) { const o = [(u0 + u1) / 2, (v0 + v1) / 2]; return { o, w: Math.round(winding(Q, o)) || 1, cost: -1 }; }
+    // rank: best score first, then the next candidates that sit clearly elsewhere (a second try should use a really different axis)
+    cands.sort((a, b) => b.score - a.score); const ext = Math.hypot(u1 - u0, v1 - v0), ranked = [];
+    for (const cnd of cands) { if (ranked.some((x) => Math.hypot(x.o[0] - cnd.o[0], x.o[1] - cnd.o[1]) < 0.2 * ext)) continue; ranked.push(cnd); if (ranked.length > (rank || 0)) break; }
+    best = ranked[Math.min(rank || 0, ranked.length - 1)];
+    return best;
+  }
+  const resample = (comps, h) => comps.map((P) => GEO.resampleClosed(P, h));
+  // add points along long segments without moving any vertex (resampling would cut corners at the risers and could change crossings)
+  const densify = (comps, h) => comps.map((P) => { const n = P.length / 3, out = []; for (let i = 0; i < n; i++) { const j = (i + 1) % n; out.push(P[3 * i], P[3 * i + 1], P[3 * i + 2]); const L = Math.hypot(P[3 * j] - P[3 * i], P[3 * j + 1] - P[3 * i + 1], P[3 * j + 2] - P[3 * i + 2]), k = Math.floor(L / h); for (let q = 1; q <= k; q++) { const f = q / (k + 1); out.push(P[3 * i] + (P[3 * j] - P[3 * i]) * f, P[3 * i + 1] + (P[3 * j + 1] - P[3 * i + 1]) * f, P[3 * i + 2] + (P[3 * j + 2] - P[3 * i + 2]) * f); } } return out; });
+
+  // one backward arc → lifted (or lowered) and swung forward around the axis
+  function findBadPiece(comps, B, o, s, r) {
+    const Q = projAll(comps, B); const { cr } = GEO.findCrossings(comps, B);
+    const pass = comps.map(() => []); cr.forEach((x) => { pass[x.a.c].push({ t: x.a.t, over: !!x.overA }); pass[x.b.c].push({ t: x.b.t, over: !x.overA }); }); pass.forEach((l) => l.sort((a, b) => a.t - b.t));
+    for (let c = 0; c < Q.length; c++) {
+      const q = Q[c], n = q.n; const th = new Float64Array(n); for (let i = 0; i < n; i++) th[i] = Math.atan2(q.V[i] - o[1], q.U[i] - o[0]);
+      const bad = new Uint8Array(n); for (let i = 0; i < n; i++) bad[i] = s * wrap(th[(i + 1) % n] - th[i]) < -1e-6 ? 1 : 0;
+      if (!bad.some((x) => x)) continue;
+      // start of a bad run (a good segment before it)
+      let start = -1; for (let i = 0; i < n; i++) if (bad[i] && !bad[(i - 1 + n) % n]) { start = i; break; }
+      if (start < 0) start = 0; // the whole component runs backwards
+      let end = start; let len = 0; while (len < n - 1 && bad[end % n]) { end++; len++; }
+      // merge short forward gaps with following bad stretches
+      for (;;) { let g = 0; while (g < 6 && len + g < n - 1 && !bad[(end + g) % n]) g++; if (g < 6 && len + g < n - 1 && bad[(end + g) % n]) { end += g; len += g; while (len < n - 1 && bad[end % n]) { end++; len++; } } else break; }
+      // pad so the endpoints sit on forward-moving stretches, away from crossings
+      const i0 = start, i1 = start + len; // vertex indices (i1 may exceed n)
+      // passages inside, in order, with their over/under role
+      const inside = []; for (const p of pass[c]) { let t = p.t; if (t < i0) t += n; if (t > i0 && t < i1) inside.push({ t, over: p.over }); } inside.sort((a, b) => a.t - b.t);
+      // first pure piece
+      let j0 = i0, j1 = i1, over = true;
+      if (inside.length) over = inside[0].over;
+      else { // no passage inside: take the role of the nearest passage, so the piece may be padded across it
+        let best = 1e9; for (const p of pass[c]) for (const t of [p.t, p.t + n, p.t - n]) { const d = t < i0 ? i0 - t : t > i1 ? t - i1 : 0; if (d < best) { best = d; over = p.over; } } }
+      for (let k = 1; k < inside.length; k++) if (inside[k].over !== over) { j1 = Math.floor((inside[k - 1].t + inside[k].t) / 2); break; }
+      // pad into the forward-moving neighbourhood (never across a passage of the other role) so the piece has room
+      const all = pass[c].map((p) => p.t); const roleAt = (t) => { const p = pass[c].find((x) => Math.abs(x.t - (((t % n) + n) % n)) < 1e-9); return p ? p.over : null; };
+      const blocked = (a, b) => { for (const p of pass[c]) { for (const t of [p.t, p.t + n, p.t - n]) if (t > a && t < b && p.over !== over) return true; } return false; };
+      for (let k = 0; k < 12 && j1 - j0 < 8; k++) { if (!blocked(j0 - 1, j0)) j0--; if (j1 - j0 < 8 && !blocked(j1, j1 + 1)) j1++; }
+      void all; void roleAt;
+      if (j1 - j0 < 3) { if (typeof process !== 'undefined' && process.env && process.env.BRDBG) console.log('skip piece', JSON.stringify({ c, i0, i1, j0, j1, over, inside: inside.length, near: pass[c].filter((p) => Math.abs(p.t - i0) < 6 || Math.abs(p.t - i1) < 6).map((p) => [p.t.toFixed(2), p.over]) })); continue; }
+      return { c, j0, j1, over, Q, n };
+    }
+    return null;
+  }
+  function reroute(comps, B, o, s, piece, r, level) {
+    const { c, j0, j1, over, Q, n } = piece, q = Q[c]; const P = comps[c];
+    const ia = ((j0 % n) + n) % n, ib = ((j1 % n) + n) % n; const A = [q.U[ia], q.V[ia], q.H[ia]], Bp = [q.U[ib], q.V[ib], q.H[ib]];
+    const ta = Math.atan2(A[1] - o[1], A[0] - o[0]), tb = Math.atan2(Bp[1] - o[1], Bp[0] - o[0]);
+    let phi = s * (tb - ta); while (phi <= 0.05) phi += TAU; while (phi > TAU + 0.05) phi -= TAU;
+    const ra0 = Math.hypot(A[0] - o[0], A[1] - o[1]), rb0 = Math.hypot(Bp[0] - o[0], Bp[1] - o[1]); const ra = Math.max(ra0, piece.rmin), rb = Math.max(rb0, piece.rmin);
+    const idx = []; for (let k = j0 + 1; k < j1; k++) idx.push(((k % n) + n) % n);
+    // the climb to the level happens over a short forward step that must not pass over or under anything: keep it inside the free disc around A (and B)
+    const clear = (p, skip) => { let d = 1e9; Q.forEach((qq, cc) => { for (let i = 0; i < qq.n; i++) { if (cc === c && Math.min(Math.abs(i - skip), qq.n - Math.abs(i - skip)) < 4) continue; d = Math.min(d, Math.hypot(qq.U[i] - p[0], qq.V[i] - p[1])); } }); return d; };
+    const epsA = Math.max(1e-3, Math.min(0.03, 0.3 * clear(A, ia) / Math.max(ra0, 1e-6))), epsB = Math.max(1e-3, Math.min(0.03, 0.3 * clear(Bp, ib) / Math.max(rb0, 1e-6)));
+    const m = idx.length; if (m < 4) return null;
+    // lifted copy (same points, new height) and swung copy (around the axis at that height)
+    const lifted = comps.map((Q0) => Q0.slice()), swung = comps.map((Q0) => Q0.slice());
+    idx.forEach((i, k) => {
+      const pL = unproj(B, q.U[i], q.V[i], level); lifted[c][3 * i] = pL[0]; lifted[c][3 * i + 1] = pL[1]; lifted[c][3 * i + 2] = pL[2];
+      // risers: the first and last points stay above A and B, so the climb to the level is vertical and crosses nothing
+      // the climb happens over a small forward step (a vertical riser would project to a point and confuse the crossing finder)
+      const t = m > 2 ? Math.min(1, Math.max(0, (k - 1) / (m - 3 || 1))) : k / Math.max(1, m - 1);
+      const th = k === 0 ? ta + s * epsA : k === m - 1 ? tb - s * epsB : ta + s * (2 * epsA + (phi - 2 * epsA - 2 * epsB) * t), rr = k === 0 ? ra0 : k === m - 1 ? rb0 : ra + (rb - ra) * t;
+      const pS = unproj(B, o[0] + rr * Math.cos(th), o[1] + rr * Math.sin(th), level);
+      swung[c][3 * i] = pS[0]; swung[c][3 * i + 1] = pS[1]; swung[c][3 * i + 2] = pS[2];
+    });
+    void P; return { lifted, swung, over };
+  }
+
+  function alexander(comps0, B, opt) {
+    opt = opt || {}; const r = opt.r || 0.011, h = (opt.h || 0.011) / (opt.refine || 2); let comps = resample(comps0, h);
+    const Q0 = projAll(comps, B); const cr0 = GEO.findCrossings(comps, B).cr; const pass0 = comps.map(() => []); cr0.forEach((x) => { pass0[x.a.c].push({ t: x.a.t, over: !!x.overA }); pass0[x.b.c].push({ t: x.b.t, over: !x.overA }); });
+    const ax = chooseAxis(Q0, pass0, opt.axisRank || 0); const o = ax.o; const tStart = Date.now(); let timedOut = false; const s = ax.w < 0 ? -1 : 1;
+    const frames = []; let steps = 0;
+    let ext = 0; Q0.forEach((q) => { for (let i = 0; i < q.n; i++) ext = Math.max(ext, Math.hypot(q.U[i] - o[0], q.V[i] - o[1])); }); const rmin = 0.18 * ext;
+    for (; steps < (opt.maxSteps || 40); steps++) {
+      const piece = findBadPiece(comps, B, o, s, r); if (!piece) break;
+      const Q = projAll(comps, B); let hmax = -1e9, hmin = 1e9; Q.forEach((q) => { for (let i = 0; i < q.n; i++) { hmax = Math.max(hmax, q.H[i]); hmin = Math.min(hmin, q.H[i]); } });
+      const level = piece.over ? hmax + 3 * r : hmin - 3 * r;
+      if (comps.reduce((q, P) => q + P.length / 3, 0) > (opt.maxPts || 20000)) break;
+      if (opt.maxMs && Date.now() - tStart > opt.maxMs) { timedOut = true; break; }
+      piece.rmin = rmin; const rr = reroute(comps, B, o, s, piece, r, level); if (!rr) break;
+      if (steps < (opt.maxFrames || 14)) { frames.push({ kind: 'base', comps }); frames.push({ kind: 'lift', comps: rr.lifted, over: rr.over }); } if (steps < (opt.maxFrames || 14)) frames.push({ kind: 'swing', comps: rr.swung });
+      comps = densify(rr.swung, h);
+      if (typeof process !== 'undefined' && process.env && process.env.BRDBG2) console.log('step', steps, 'c', piece.c, 'j', piece.j0, piece.j1, 'over', piece.over, 'pts', comps.reduce((q, P) => q + P.length / 3, 0), 'level', level.toFixed(3));
+    }
+    const word = timedOut ? { word: [], n: 0 } : readWord(comps, B, o, s);
+    const okIdx = word.word.every((g) => Math.abs(g) >= 1 && Math.abs(g) < word.n);
+    return Object.assign({ frames, comps, axis: o, sign: s, steps, timedOut, done: !timedOut && okIdx && !findBadPiece(comps, B, o, s, r) }, word);
+  }
+
+  // sweep a ray around the axis; positions counted from the axis outwards
+  function readWord(comps, B, o, s) {
+    const Q = projAll(comps, B); const { cr } = GEO.findCrossings(comps, B);
+    const ang = (u, v) => { let a = s * Math.atan2(v - o[1], u - o[0]); if (a < 0) a += TAU; return a; };
+    const radiiAt = (a, skip) => { const th = s * a, dx = Math.cos(th), dy = Math.sin(th), out = [];
+      Q.forEach((q, c) => { for (let i = 0; i < q.n; i++) { if (skip && skip.some((z) => z[0] === c && Math.abs(z[1] - i) <= 1)) continue; const j = (i + 1) % q.n; const ax = q.U[i] - o[0], ay = q.V[i] - o[1], bx = q.U[j] - o[0], by = q.V[j] - o[1];
+        const ex = bx - ax, ey = by - ay, den = dx * ey - dy * ex; if (Math.abs(den) < 1e-15) continue;
+        const mu = (ax * dy - ay * dx) / den; if (mu < 0 || mu >= 1) continue; const px = ax + ex * mu, py = ay + ey * mu; const lam = px * dx + py * dy; if (lam <= 0) continue; out.push(Math.hypot(px, py)); } });
+      return out.sort((x, y) => x - y); };
+    const n = radiiAt(0.37).length;
+    const items = cr.map((x) => ({ a: ang(x.x, x.y), rad: Math.hypot(x.x - o[0], x.y - o[1]), sign: x.sign, x: x.x, y: x.y, h: Math.max(x.ha, x.hb), skip: [[x.a.c, Math.floor(x.a.t)], [x.b.c, Math.floor(x.b.t)]] })).sort((p, q) => p.a - q.a);
+    const word = items.map((it) => { const R = radiiAt(it.a, it.skip); let i = 0; while (i < R.length && R[i] < it.rad) i++; return (i + 1) * it.sign; });
+    return { word, n, read: items.map((it, k) => ({ a: it.a, x: it.x, y: it.y, h: it.h, g: word[k] })) };
+  }
+
+  /* ---------- Markov moves on words ---------- */
+  function freeReduce(w) { const out = []; for (const g of w) { if (out.length && out[out.length - 1] === -g) out.pop(); else out.push(g); } while (out.length > 1 && out[0] === -out[out.length - 1]) { out.shift(); out.pop(); } return out; }
+  function markov(word, n) {
+    let w = freeReduce(word.slice()), m = n; const log = [];
+    for (let guard = 0; guard < 200; guard++) {
+      w = freeReduce(w); let did = false;
+      // unused outer or inner strand: split unknot would change the link, so only destabilise single occurrences
+      const cnt = (g) => w.filter((x) => Math.abs(x) === g).length;
+      if (m > 1 && cnt(m - 1) === 1) { const i = w.findIndex((x) => Math.abs(x) === m - 1); w = w.slice(i + 1).concat(w.slice(0, i)); m--; log.push('destab'); did = true; }
+      else if (m > 1 && cnt(1) === 1) { const i = w.findIndex((x) => Math.abs(x) === 1); w = w.slice(i + 1).concat(w.slice(0, i)).map((x) => Math.sign(x) * (Math.abs(x) - 1)); m--; log.push('destab1'); did = true; }
+      if (!did) break;
+    }
+    return { word: w, n: m, log };
+  }
+
+
+  // Projection directions worth trying, best first: few crossings, no near-tangent crossings, no component seen edge-on.
+  // The board's own direction gets a small bonus, so it is kept when it is already a clean view.
+  function directions(comps, board, N) {
+    N = N || 40; const dirs = [board.d]; for (let i = 0; i < N; i++) { const z = 1 - (i + 0.5) / N, rr = Math.sqrt(1 - z * z), th = i * 2.399963; dirs.push([rr * Math.cos(th), rr * Math.sin(th), z]); }
+    const out = dirs.map((d, k) => {
+      const B = k === 0 ? board : GEO.basisFromDir(d); const { cr, proj } = GEO.findCrossings(comps, B);
+      let minAng = Math.PI / 2; cr.forEach((x) => { const pa = proj[x.a.c], pb = proj[x.b.c], ia = x.a.i, ib = x.b.i, ja = (ia + 1) % pa.n, jb = (ib + 1) % pb.n; const ax = pa.X[ja] - pa.X[ia], ay = pa.Y[ja] - pa.Y[ia], bx = pb.X[jb] - pb.X[ib], by = pb.Y[jb] - pb.Y[ib]; const c = Math.abs(ax * bx + ay * by) / (Math.hypot(ax, ay) * Math.hypot(bx, by) || 1); minAng = Math.min(minAng, Math.acos(Math.min(1, c))); });
+      let thin = 1; proj.forEach((q) => { let mx = 0, my = 0; for (let i = 0; i < q.n; i++) { mx += q.X[i]; my += q.Y[i]; } mx /= q.n; my /= q.n; let a = 0, b = 0, c = 0; for (let i = 0; i < q.n; i++) { const u = q.X[i] - mx, v = q.Y[i] - my; a += u * u; b += u * v; c += v * v; } const tr = a + c, det = a * c - b * b, l1 = tr / 2 + Math.sqrt(Math.max(0, tr * tr / 4 - det)), l2 = tr / 2 - Math.sqrt(Math.max(0, tr * tr / 4 - det)); thin = Math.min(thin, Math.sqrt(Math.max(0, l2) / (l1 || 1))); });
+      const score = cr.length + 2 * (1 - Math.min(1, minAng / 0.7)) + 4 * Math.max(0, 0.4 - thin) / 0.4 - (k === 0 ? 0.5 : 0);
+      return { B, n: cr.length, score, board: k === 0 };
+    });
+    out.sort((a, b) => a.score - b.score);
+    // drop near-duplicates (same crossing count and almost the same direction)
+    const kept = []; for (const o of out) { if (kept.some((k) => k.n === o.n && Math.abs(GEO.dot(k.B.d, o.B.d)) > 0.97)) continue; kept.push(o); }
+    return kept;
+  }
+
+  return { alexander, readWord, markov, freeReduce, chooseAxis, projAll, directions };
+})();
+if (typeof module !== 'undefined') module.exports = BR;
 
 </script>
 <script type="text/plain" id="vis-src">
@@ -2358,14 +2817,55 @@ onmessage = function (e) {
     catch (err) { res = { ok: false, warnings: ['Okuma hatası: ' + String(err && err.message || err)], W: m.W, H: m.H }; }
     postMessage({ type: 'read', id: m.id, res: res }); return;
   }
+  if (m.type === 'rmove') {
+    var ro = { type: 'rmove', id: m.id, kind: m.kind };
+    try {
+      var B = m.B, comps = m.comps, opt = { r: m.r, allowBareR3: !!m.bare, rnd: Math.random }, res = null;
+      var k0 = RM.invariantKey(comps, B); ro.n0 = k0.n;
+      if (m.kind === 'simp') res = RM.simplifyStep(comps, B, opt);
+      else if (m.kind === 'R2+') { for (var t = 0; t < 6 && !res; t++) { var f = RM.fingerR2(comps, B, opt); if (f) { var ch = RM.check({ comps: comps, key: k0 }, f.comps, B, 'R2+'); if (ch.ok) res = Object.assign(f, { mv: { type: 'R2+', x: f.x, y: f.y }, key: ch.k1 }); } } }
+      else if (m.kind === 'count') { var C0 = RM.candidates(comps, B); ro.counts = { R1: C0.r1.length, R2: C0.r2.length, R3: C0.r3.length }; }
+      else { var C = RM.candidates(comps, B, { r3: m.kind === 'R3' }); var L = m.kind === 'R1' ? C.r1 : m.kind === 'R2' ? C.r2 : C.r3;
+        for (var q = 0; q < L.length && !res; q++) { var pr = RM.perform(comps, B, L[q], opt); if (!pr) continue; var ch2 = RM.check({ comps: comps, key: k0 }, pr.comps, B, L[q].type); if (ch2.ok) res = Object.assign(pr, { mv: L[q], key: ch2.k1 }); } }
+      if (res) { ro.comps = res.comps; ro.stages = res.stages || null; ro.mv = { type: res.mv.type, x: res.mv.x, y: res.mv.y, face: res.mv.face }; ro.n1 = res.key ? res.key.n : null; ro.c = res.c; }
+    } catch (err) { ro.error = String(err && err.stack || err); }
+    postMessage(ro); return;
+  }
+  if (m.type === 'braidify') {
+    var bo = { type: 'braidify', id: m.id };
+    try {
+      var Gr = GEO.buildGauss(m.comps, GEO.findCrossings(m.comps, m.B).cr).G, Sr = KM.simplify(Gr), a1 = KM.alexander(Sr)[1].join(',');
+      var dirs = BR.directions(m.comps, m.B, 40), t0 = Date.now(), tries = 0, best = null, plan = [];
+      // the board's view with its best and second-best axis first, then the cleanest other views
+      dirs.forEach(function (d) { if (d.board) plan.push({ d: d, rank: 0 }, { d: d, rank: 1 }); }); dirs.forEach(function (d) { if (!d.board) plan.push({ d: d, rank: 0 }); });
+      for (var di = 0; di < plan.length && tries < (m.maxTries || 8); di++) {
+        if (tries > 0 && Date.now() - t0 > (m.budget || 9000)) break;
+        var Bd = plan[di].d.B; tries++;
+        var res2; try { res2 = BR.alexander(m.comps, Bd, { r: m.r, h: m.h, axisRank: plan[di].rank, maxMs: 2500 }); } catch (e1) { continue; }
+        if (res2.timedOut) continue;
+        if (!res2.done) { if (!best) best = { res: res2, B: Bd, board: plan[di].d.board }; continue; }
+        var mk = BR.markov(res2.word, res2.n), Gw = KM.gaussFromBraid(mk.word.length ? mk.word : [], mk.n), a2 = KM.alexander(KM.simplify(Gw))[1];
+        var ok = a1 === a2.join(',') || a1 === a2.map(function (x) { return -x; }).join(',');
+        if (!ok) continue;
+        best = { res: res2, B: Bd, board: plan[di].d.board, mk: mk, Gw: Gw, ok: true }; break;
+      }
+      bo.tries = tries; bo.ms = Date.now() - t0;
+      if (!best) throw new Error('no direction worked');
+      var r2 = best.res; bo.B = best.B; bo.board = best.board;
+      bo.frames = r2.frames.map(function (f) { return { kind: f.kind, comps: f.comps }; }); bo.final = r2.comps; bo.axis = r2.axis; bo.sign = r2.sign; bo.word = r2.word; bo.n = r2.n; bo.done = r2.done; bo.steps = r2.steps; bo.read = r2.read;
+      bo.alexOk = !!best.ok;
+      if (best.ok) { bo.mword = best.mk.word; bo.mn = best.mk.n; var Sw = KM.simplify(best.Gw); if (Sr.sign.length <= 24 && Sw.sign.length <= 24) { var j1 = KM.jones(Sr), j2 = KM.jones(Sw); bo.jonesOk = JSON.stringify(j1) === JSON.stringify(j2); } }
+    } catch (err) { bo.error = String(err && err.stack || err); }
+    postMessage(bo); return;
+  }
   if (m.type === 'seifert') {
     var out = { type: 'seifert', id: m.id, purpose: m.purpose, key: m.key, src: m.src };
     try {
       var comps2 = m.comps2, cr = m.cr;
       if (m.braid) { var cb = GEO.braidClosure(m.braid, m.strands).map(function (P) { return GEO.resampleClosed(P, 0.02); }); var fc = GEO.findCrossings(cb, { e1: [1, 0, 0], e2: [0, 1, 0], d: [0, 0, 1] }); cr = fc.cr; comps2 = fc.proj.map(function (q) { return { X: q.X, Y: q.Y }; }); }
-      var surf = SF.build(comps2, cr, { maxGen: m.maxGen || 60 });
-      out.surf = { s: surf.s, c: surf.c, mu: surf.mu, chi: surf.chi, nComp: surf.nComp, genus: surf.genus, nGen: surf.nGen, lkBad: surf.lkBad, matrixErr: surf.matrixErr, matrixSkipped: surf.matrixSkipped, Hs: surf.Hs };
-      if (m.purpose === 'view') { out.mesh = { pos: surf.pos, idx: surf.idx, kind: surf.kind, boundary: surf.boundary, cycles: surf.cycles || [] }; }
+      var surf = SF.build(comps2, cr, { maxGen: m.maxGen || 60, bump: m.bump || 0 });
+      out.surf = { s: surf.s, c: surf.c, mu: surf.mu, chi: surf.chi, nComp: surf.nComp, genus: surf.genus, nGen: surf.nGen, lkBad: surf.lkBad, matrixErr: surf.matrixErr, matrixSkipped: surf.matrixSkipped, Hs: surf.Hs, topo: surf.mesh };
+      if (m.purpose === 'view') { out.mesh = { pos: surf.pos, idx: surf.idx, kind: surf.kind, boundary: surf.boundary, boundaryS: surf.boundaryS, compL: surf.compL, cycles: surf.cycles || [] }; }
       if (surf.V) { out.V = surf.V; out.inv = SF.fromMatrix(surf.V, surf.mu, {}); }
     } catch (err) { out.error = String(err && err.stack || err); }
     var tr = []; if (out.mesh) { tr.push(out.mesh.pos.buffer, out.mesh.idx.buffer, out.mesh.kind.buffer); }
@@ -2547,37 +3047,57 @@ function updatePlacement(frame) {
 function makePanel(w, h, pxW, pxH) { const cv = document.createElement('canvas'); cv.width = pxW; cv.height = pxH; const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true, toneMapped: false })); m.visible = false; return { cv, ctx: cv.getContext('2d'), tex, mesh: m, w, h }; }
 const xrMenu = makePanel(0.56, 0.6, 1120, 1200); lab.add(xrMenu.mesh); xrMenu.mesh.position.set(-0.62, 1.12, 0.12); xrMenu.mesh.rotation.set(-0.35, 0.62, 0.2);
 const xrInfo = makePanel(0.56, 0.72, 1000, 1286); lab.add(xrInfo.mesh); xrInfo.mesh.position.set(0.66, 1.38, 0.02); xrInfo.mesh.rotation.set(0, -0.55, 0);
-const MENU = [
-  [{ id: 'm:iso', t: 'İzotopi' }, { id: 'm:draw', t: 'Çiz' }, { id: 'm:r1', t: 'R1 kıvrımı' }, { id: 'm:cross', t: 'Kesişim' }, { id: 'm:paint', t: 'Boya' }],
-  [{ id: 't:relax', t: 'Gevşet' }, { id: 't:tighten', t: 'Gerginleştir' }, { id: 't:spin', t: 'Döndür' }, { id: 't:guard', t: 'Kalkan' }, { id: 'c:next', t: 'Renk ⟳' }],
-  [{ id: 'p:prev', t: '◀ Düğüm' }, { id: 'p:next', t: 'Düğüm ▶' }, { id: 'a:align', t: 'Tahtayı hizala' }, { id: 'a:auto', t: 'Oto. renk' }, { id: 'a:undo', t: 'Geri al' }],
-  [{ id: 'a:kink', t: 'Kıvrım ±' }, { id: 'a:add', t: 'Bileşen ekle' }, { id: 'a:fox', t: 'p ⟳' }, { id: 'a:reset', t: 'Konumu sıfırla' }, { id: 'a:exit', t: 'Çıkış' }],
-  [{ id: 'm:place', t: 'Masaya koy' }, { id: 'a:board', t: 'Gölge: masa' }, { id: 'a:smaller', t: 'Küçült' }, { id: 'a:bigger', t: 'Büyüt' }, { id: 'i:anchor', t: 'Çapa' }],
-  [{ id: 'v:scan', t: 'Kamerayla oku' }, { id: 'v:take', t: 'Görüleni al' }, { id: 'a:braid', t: 'Örgü kapanışı' }, { id: 'k:prev', t: '◀ Tablo' }, { id: 'k:next', t: 'Tablo ▶' }],
-  [{ id: 's:surf', t: 'Seifert yüzeyi' }, { id: 's:gens', t: 'H₁ üreteçleri' }, { id: 's:braid', t: 'Örgüden yüzey' }, { id: 's:alg', t: 'Tekillik bağı' }, { id: 's:info', t: 'Bilgi: lif' }],
-];
+const MENU_PAGES = {
+  tools: { t: 'Araçlar', rows: [
+    [{ id: 'm:iso', t: 'İzotopi' }, { id: 'm:draw', t: 'Çiz' }, { id: 'm:r1', t: 'R1 kıvrımı' }, { id: 'm:cross', t: 'Kesişim' }, { id: 'm:paint', t: 'Boya' }],
+    [{ id: 't:relax', t: 'Gevşet' }, { id: 't:tighten', t: 'Gerginleştir' }, { id: 't:spin', t: 'Döndür' }, { id: 't:guard', t: 'Kalkan' }, { id: 'c:next', t: 'Renk ⟳' }],
+    [{ id: 'p:prev', t: '◀ Düğüm' }, { id: 'p:next', t: 'Düğüm ▶' }, { id: 'a:align', t: 'Tahtayı hizala' }, { id: 'a:auto', t: 'Oto. renk' }, { id: 'a:undo', t: 'Geri al' }],
+    [{ id: 'a:kink', t: 'Kıvrım ±' }, { id: 'a:add', t: 'Bileşen ekle' }, { id: 'a:fox', t: 'p ⟳' }, { id: 'a:reset', t: 'Konumu sıfırla' }, { id: 'a:exit', t: 'Çıkış' }],
+    [{ id: 'm:place', t: 'Masaya koy' }, { id: 'a:board', t: 'Gölge: masa' }, { id: 'a:smaller', t: 'Küçült' }, { id: 'a:bigger', t: 'Büyüt' }, { id: 'i:anchor', t: 'Çapa' }]] },
+  moves: { t: 'Hamleler', rows: [
+    [{ id: 'r:simp', t: 'Sadeleştir' }, { id: 'r:R1', t: 'R1 −' }, { id: 'r:R2', t: 'R2 −' }, { id: 'r:R3', t: 'R3' }, { id: 'a:undo', t: 'Geri al' }],
+    [{ id: 'r:R1+', t: 'R1 +' }, { id: 'r:R2+', t: 'R2 +' }, { id: 'r:smooth', t: 'Düzgünleştir' }, { id: 't:relax', t: 'Gevşet' }, { id: 'a:align', t: 'Tahtayı hizala' }],
+    [{ id: 'm:iso', t: 'İzotopi' }, { id: 'm:cross', t: 'Kesişim' }, { id: 'p:prev', t: '◀ Düğüm' }, { id: 'p:next', t: 'Düğüm ▶' }, { id: 'k:next', t: 'Tablo ▶' }]] },
+  braid: { t: 'Örgü', rows: [
+    [{ id: 'b:conv', t: 'Örgüye dönüştür' }, { id: 'b:start', t: 'Tablodan başla' }, { id: 'b:undo', t: 'Son harfi sil' }, { id: 'b:conj', t: 'Eşlenik ⟳' }, { id: 'b:destab', t: 'Markov −' }],
+    [{ id: 'b:g+1', t: 'σ₁' }, { id: 'b:g+2', t: 'σ₂' }, { id: 'b:g+3', t: 'σ₃' }, { id: 'b:g+4', t: 'σ₄' }, { id: 'b:stab', t: 'Markov +' }],
+    [{ id: 'b:g-1', t: 'σ₁⁻¹' }, { id: 'b:g-2', t: 'σ₂⁻¹' }, { id: 'b:g-3', t: 'σ₃⁻¹' }, { id: 'b:g-4', t: 'σ₄⁻¹' }, { id: 'b:empty', t: 'Boş örgü' }]] },
+  more: { t: 'Oku · Yüzey', rows: [
+    [{ id: 'v:scan', t: 'Kamerayla oku' }, { id: 'v:take', t: 'Görüleni al' }, { id: 'a:braid', t: 'Örgü kapanışı' }, { id: 'k:prev', t: '◀ Tablo' }, { id: 'k:next', t: 'Tablo ▶' }],
+    [{ id: 's:surf', t: 'Seifert yüzeyi' }, { id: 's:gens', t: 'H₁ üreteçleri' }, { id: 's:braid', t: 'Örgüden yüzey' }, { id: 's:alg', t: 'Tekillik bağı' }, { id: 's:info', t: 'Bilgi: lif' }]] },
+};
+const MENU_TABS = ['tools', 'moves', 'braid', 'more'];
+let menuPage = 'tools';
+const MENU_TAB_BTNS = MENU_TABS.map((k) => ({ id: 'pg:' + k, t: MENU_PAGES[k].t }));
 function menuActive(id) {
   const [k, v] = id.split(':');
+  if (k === 'pg') return menuPage === v; if (id === 'r:simp') { try { return RMS.auto; } catch (e) { return false; } }
   if (k === 'm') return S.mode === v; if (k === 't') return v === 'guard' ? rope.guard : v === 'spin' ? S.spin : rope[v];
   if (id === 'a:add') return !!S.addComp; if (id === 'a:board') return !!S.boardOnSurface; if (id === 'i:anchor') return !!(S.place && S.place.anchor); if (id === 'v:scan') return cam.on; try { if (id === 's:surf') return SEIF.show; if (id === 's:gens') return SEIF.gens; } catch (e) { return false; } if (id === 's:info') return S.infoPage === 'surf'; return false;
 }
 function drawMenu() {
   const { ctx, cv } = xrMenu; const W = cv.width, H = cv.height; ctx.clearRect(0, 0, W, H);
   ctx.fillStyle = 'rgba(16,30,26,0.92)'; roundRect(ctx, 0, 0, W, H, 36); ctx.fill();
-  ctx.fillStyle = '#9fb3aa'; ctx.font = '500 30px "IBM Plex Sans"'; ctx.fillText('Düğüm Laboratuvarı · araçlar', 34, 50);
-  const rows = MENU.length, cols = 5, x0 = 24, y0 = 76, bw = (W - 48) / cols, bh = (H - y0 - 20) / rows;
-  MENU.forEach((row, r) => row.forEach((b, c) => {
+  const rowsP = MENU_PAGES[menuPage].rows; const W2 = W - 48, tabH = 92, tabW = W2 / MENU_TABS.length;
+  MENU_TAB_BTNS.forEach((b, c) => { const x = 24 + c * tabW + 5, y = 20, w = tabW - 10, h = tabH - 18; b.rect = [x / W, y / H, (x + w) / W, (y + h) / H]; const act = menuActive(b.id), hov = S.menuHover === b.id;
+    ctx.fillStyle = act ? '#f0a94a' : hov ? '#2f4c42' : '#172d26'; roundRect(ctx, x, y, w, h, 16); ctx.fill(); ctx.fillStyle = act ? '#10201b' : '#cfe0d8'; ctx.font = '600 30px "IBM Plex Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(b.t, x + w / 2, y + h / 2); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; });
+  const rows = rowsP.length, cols = 5, x0 = 24, y0 = tabH + 16, bw = (W - 48) / cols, bh = Math.min(200, (H - y0 - 20) / Math.max(rows, 4));
+  for (const pg of MENU_TABS) for (const row of MENU_PAGES[pg].rows) for (const b of row) b.rect = null;
+  rowsP.forEach((row, r) => row.forEach((b, c) => {
     const x = x0 + c * bw + 6, y = y0 + r * bh + 6, w = bw - 12, h = bh - 12; b.rect = [x / W, y / H, (x + w) / W, (y + h) / H];
-    const act = menuActive(b.id), hov = S.menuHover === b.id;
-    ctx.fillStyle = act ? '#eef3ee' : hov ? '#2f4c42' : '#1f3830'; roundRect(ctx, x, y, w, h, 18); ctx.fill();
-    ctx.fillStyle = act ? '#10201b' : '#e6efe9'; ctx.font = '600 31px "IBM Plex Sans"'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const act = menuActive(b.id), hov = S.menuHover === b.id; let dis = false;
+    const bm = /^b:g[+-](\d)$/.exec(b.id); if (bm) { try { dis = +bm[1] >= (BRS.n || 2); } catch (e) { dis = false; } }
+    ctx.fillStyle = act ? '#eef3ee' : hov ? '#2f4c42' : '#1f3830'; ctx.globalAlpha = dis ? 0.35 : 1; roundRect(ctx, x, y, w, h, 18); ctx.fill();
+    ctx.fillStyle = act ? '#10201b' : '#e6efe9'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     let label = b.t; if (b.id === 'c:next') label = 'Renk: ' + ({ comp: 'bileşen', fox: 'Fox', seifert: 'Seifert', curv: 'eğrilik' })[S.colorMode]; if (b.id === 'a:fox') label = 'p = ' + S.foxP; if (b.id === 'a:kink') label = 'Kıvrım ' + (S.kinkSign > 0 ? '+' : '−'); if (b.id === 'a:board') label = S.boardOnSurface ? 'Gölge: masada' : 'Gölge: masaya'; if (b.id === 'i:anchor') label = S.place ? (S.place.anchor ? 'Odaya sabit ✓' : 'Çapa yok') : 'Yerleşmedi';
-    ctx.fillText(label, x + w / 2, y + h / 2); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    try { if (b.id === 'r:simp' && RMS.auto) label = 'Durdur'; const cn = RMS.counts; if (cn && /^r:R[123]$/.test(b.id)) label += ` (${cn[b.id.slice(2)]})`; } catch (e) { /* not ready */ }
+    let fs = 31; ctx.font = `600 ${fs}px "IBM Plex Sans"`; while (ctx.measureText(label).width > w - 22 && fs > 18) { fs--; ctx.font = `600 ${fs}px "IBM Plex Sans"`; }
+    ctx.fillText(label, x + w / 2, y + h / 2); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.globalAlpha = 1;
   }));
   xrMenu.tex.needsUpdate = true;
 }
 function roundRect(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
-function menuHitUV(uv) { for (const row of MENU) for (const b of row) { const [x0, y0, x1, y1] = b.rect || [0, 0, 0, 0]; const u = uv.x, v = 1 - uv.y; if (u >= x0 && u <= x1 && v >= y0 && v <= y1) return b.id; } return null; }
+function menuHitUV(uv) { for (const row of [MENU_TAB_BTNS, ...MENU_PAGES[menuPage].rows]) for (const b of row) { const [x0, y0, x1, y1] = b.rect || [0, 0, 0, 0]; const u = uv.x, v = 1 - uv.y; if (u >= x0 && u <= x1 && v >= y0 && v <= y1) return b.id; } return null; }
 
 /* ======================= workers ======================= */
 const WSRC = [$('km-src').textContent, $('geo-src').textContent, $('vis-src').textContent, $('worker-src').textContent].join('\n;\n');
@@ -2888,6 +3408,7 @@ function renderPanel() {
   $('gauss').textContent = R.gauss.map((g) => g || '∅').join('  |  ');
   $('pd').textContent = 'PD[' + R.pd.map((x) => `X[${x.join(',')}]`).join(', ') + ']';
   try { renderSurf(R); } catch (err) { console.warn(err); }
+  try { brOnResult(R); } catch (err) { console.warn(err); }
   const w = R.wirt; $('wirt').textContent = `⟨ x₁…x${subs(w.gens)} | ` + w.rels.map((r) => (r.s > 0 ? `x${subs(r.k + 1)}x${subs(r.i + 1)}x${subs(r.k + 1)}⁻¹ = x${subs(r.j + 1)}` : `x${subs(r.k + 1)}⁻¹x${subs(r.i + 1)}x${subs(r.k + 1)} = x${subs(r.j + 1)}`)).join(', ') + ' ⟩';
   S.infoDirty = true;
 }
@@ -2932,6 +3453,15 @@ function drawInfo() {
   line(plain($('idname').innerHTML), '600 84px "STIX Two Text"', '#ffffff', 90);
   line($('idsub').textContent, '400 30px "IBM Plex Sans"', '#a9bdb4', 40); y += 14;
   const kv = (k, v) => { ctx.font = '500 28px "IBM Plex Sans"'; ctx.fillStyle = '#8fa39a'; ctx.fillText(k, 46, y); y += 40; line(v, '400 38px "STIX Two Text"', '#eef3ee', 46); y += 8; };
+  if (S.infoPage === 'braid') {
+    let w = null; try { w = BRS.word; } catch (e) { w = null; }
+    if (w) { kv(`Örgü · ${BRS.n} iplik · ${w.length} harf`, w.length ? braidText(w) : '1 (boş örgü)');
+      const H2 = BRS.hist.slice(-7).reverse(); ctx.font = '500 28px "IBM Plex Sans"'; ctx.fillStyle = '#8fa39a'; ctx.fillText('Uygulanan hamleler → düğüm', 46, y); y += 40;
+      for (const h of H2) { line(`${h.word.length ? braidText(h.word) : '1'}  →  ${h.nameText || '…'}`, '400 32px "STIX Two Text"', '#eef3ee', 46); ctx.font = '400 24px "IBM Plex Sans"'; ctx.fillStyle = '#8fa39a'; ctx.fillText(h.note || '', 60, y); y += 34; } }
+    else kv('Örgü', 'Menüde Örgü sekmesi: “Örgüye dönüştür” ya da “Tablodan başla”.');
+    y = H - 120; ctx.fillStyle = '#ffc23d'; ctx.font = '500 28px "IBM Plex Sans"'; wrap(S.xrMsg && performance.now() - S.xrMsgT < 4000 ? S.xrMsg : 'σᵢ: iplik i, i+1’in önünden geçer. Eşlenik ve Markov ± düğümü değiştirmez.', 46, y, W - 92, 36);
+    xrInfo.tex.needsUpdate = true; return;
+  }
   if (S.infoPage === 'surf') {
     const P = SEIF.panel && SEIF.panel.key === RES.key ? SEIF.panel : null, id = R.id, kk = id.kind === 'prime' && id.cands.length === 1 ? KBYNAME.get(id.cands[0].name) : null;
     if (P && P.surf) { kv('Seifert yüzeyi (' + (P.src === 'braid' ? 'örgü kapanışı' : 'diyagram') + ')', `${P.surf.s} disk, ${P.surf.c} bant · χ = ${String(P.surf.chi).replace('-', '−')} · cins ${P.surf.genus}`);
@@ -3014,7 +3544,8 @@ function loadPreset(key, opt) {
   loadComps(comps, { relax: !!p[3], ...opt }); $('preset').value = key; S.presetIdx = PRESET_FLAT.indexOf(p);
 }
 function loadComps(comps, opt) {
-  try { if (SEIF.show) seifView(false); } catch (e) { /* not yet initialised */ }
+  try { if (SEIF.show || SEIF.flat) { seifView(false, true); SEIF.flat = null; SEIF.orig = null; } } catch (e) { /* not yet initialised */ }
+  try { if (BRS.sweep) { BRS.sweep = null; brSweep.visible = false; brDots.forEach((d) => { d.visible = false; }); } clearTimeout(BRS.labTimer); brLabelHide(); } catch (e) { /* not yet initialised */ }
   if (!opt || !opt.noUndo) pushUndo();
   const fitR = (opt && opt.radius) || KNOT_R; rope.setComps(GEO.fit(comps, fitR)); rope.grabs = [];
   knotGroup.quaternion.identity(); knotGroup.scale.setScalar(KNOT_R / fitR); knotGroup.position.copy(KNOT_CENTER);
@@ -3094,6 +3625,7 @@ canvas.addEventListener('pointerdown', (e) => {
   const rw = mouseRay(e);
   if (e.ctrlKey || e.altKey || e.metaKey || e.button === 2) { controls.enabled = false; P.rot = { x: e.clientX, y: e.clientY }; pushUndo(); return; }
   if (S.mode === 'draw') { controls.enabled = false; P.stroke = []; P.addComp = e.shiftKey; addStrokePoint(e); return; }
+  if (SEIF.show) { const hs = pickRope(rw); if (hs) { controls.enabled = false; P.rot = { x: e.clientX, y: e.clientY }; return; } controls.enabled = true; return; }
   const hit = pickRope(rw);
   if (!hit) { controls.enabled = true; return; }
   controls.enabled = false;
@@ -3138,6 +3670,7 @@ function liftAndAdd(rel, e1, e2, e3, addComp) {
   const inv = knotGroup.matrixWorld.clone().invert(); const loc = []; for (let i = 0; i < P3.length; i += 3) { const w = c.clone().addScaledVector(e1, P3[i]).addScaledVector(e2, P3[i + 1]).addScaledVector(e3, P3[i + 2]); w.applyMatrix4(inv); loc.push(w.x, w.y, w.z); }
   if (addComp) { rope.comps.push(GEO.resampleClosed(loc, H0)); rope.tags.push(new Array(rope.comps[rope.comps.length - 1].length / 3).fill(-1)); rope.version++; rope.settle = 40; }
   else { rope.setComps([loc]); }
+  rope.fair = 120;
   placeWall(e3.clone()); S.needAutoColor = S.colorMode === 'fox'; RES.key = null;
 }
 // inset clicks
@@ -3176,6 +3709,7 @@ function xrSelectStart(st) {
   if (!S.xr) return; const r = xrRay(st), tip = xrTip(st);
   const mh = xrMenu.mesh.visible && xrPanelHit(r, xrMenu); if (mh) { const id = menuHitUV(mh.uv); if (id) menuAction(id); st.act = { type: 'ui' }; return; }
   if (S.mode === 'place') { const h = surfaceHit(st); if (h) S.pendingPlace = h; else flash('Yüzey bulunamadı: kumandayı masaya ya da zemine doğrultun.'); st.act = { type: 'ui' }; return; }
+  if (SEIF.show && S.mode !== 'draw') { xrRigidStart(st); return; }
   const wh = xrPanelHit(r, { mesh: wall });
   const localTip = toLocal(tip); const near = rope.nearestPoint(localTip.toArray()); const nearOK = near && near.d * knotGroup.scale.x < 0.045;
   let hit = nearOK ? near : null; let far = false;
@@ -3226,7 +3760,7 @@ function finishDraw3D(a) {
   const pts = a.pts; if (pts.length < 10) return; let L = 0; for (let i = 1; i < pts.length; i++) L += pts[i].distanceTo(pts[i - 1]); if (L < 0.2) { flash('Çizim çok kısa.'); return; }
   pushUndo(); const inv = knotGroup.matrixWorld.clone().invert(); const loc = []; pts.forEach((p) => { const q = p.clone().applyMatrix4(inv); loc.push(q.x, q.y, q.z); });
   let P3 = GEO.resampleClosed(GEO.smoothClosed(GEO.resampleClosed(loc, H0 * 0.5), 0.5, 4), H0);
-  if (a.add) { rope.comps.push(P3); rope.tags.push(new Array(P3.length / 3).fill(-1)); rope.version++; rope.settle = 60; } else { rope.comps = [P3]; rope.tags = [new Array(P3.length / 3).fill(-1)]; rope.version++; rope.settle = 60; }
+  if (a.add) { rope.comps.push(P3); rope.tags.push(new Array(P3.length / 3).fill(-1)); rope.version++; rope.settle = 60; rope.fair = 120; } else { rope.comps = [P3]; rope.tags = [new Array(P3.length / 3).fill(-1)]; rope.version++; rope.settle = 60; rope.fair = 120; }
   prevD = null; S.needAutoColor = S.colorMode === 'fox'; RES.key = null; flash('Düğüm çizildi: değişmezler hesaplanıyor.');
 }
 function finishWallStroke() {
@@ -3249,6 +3783,9 @@ function menuAction(id) {
   else if (id === 'a:exit') { const s = renderer.xr.getSession(); if (s) s.end(); }
   else if (id === 'v:scan') { if (cam.on) camStop(); else camStart('xr'); }
   else if (id === 'v:take') takeLive();
+  else if (k === 'pg') { menuPage = v; drawMenu(); }
+  else if (k === 'r') { if (v === 'simp') rmAuto(); else if (v === 'smooth') { rope.fair = 160; S.xrMsg = 'Düzgünleştiriliyor'; S.xrMsgT = performance.now(); } else rmRequest(v); }
+  else if (k === 'b') { if (v === 'start') { BRS.word = null; brStart(); } else if (v === 'empty') { BRS.word = []; BRS.n = 2; BRS.hist = [{ word: [], n: 2, note: 'boş örgü' }]; BRS.pendingHist = true; loadComps(GEO.braidClosure([], 2), { relax: false }); renderBraidLab(); } else brAction(v); S.infoPage = 'braid'; S.infoDirty = true; drawMenu(); }
   else if (id === 's:surf') seifView();
   else if (id === 's:gens') seifGens();
   else if (id === 's:braid') seifFromBraid();
@@ -3271,7 +3808,7 @@ function updateXRInputs() {
     // thumbstick: falloff radius
     const gp = src.gamepad; if (gp && gp.axes && gp.axes.length >= 4 && Math.abs(gp.axes[3]) > 0.2) { S.falloff = Math.min(0.2, Math.max(0.015, S.falloff * (1 - gp.axes[3] * 0.02))); for (const g of rope.grabs) g.R = S.falloff / knotGroup.scale.x; }
     const a = st.act; if (!a) continue;
-    if (a.type === 'grab') { const target = a.far ? r.origin.clone().addScaledVector(r.direction, a.dist) : tip.clone().add(a.off.clone().multiplyScalar(0.0)); a.g.target = toLocal(target).toArray(); a.g.R = S.falloff / knotGroup.scale.x; }
+    if (a.type === 'grab') { const target = a.far ? r.origin.clone().addScaledVector(r.direction, a.dist) : tip.clone().add(a.off.clone().multiplyScalar(0.0)); const tl = toLocal(target).toArray(); const k = st.source && st.source.hand ? 0.35 : 0.6; a.g.target = a.g.target ? a.g.target.map((v, i) => v + (tl[i] - v) * k) : tl; a.g.R = S.falloff / knotGroup.scale.x; }
     else if (a.type === 'draw3d') { const l = a.pts[a.pts.length - 1]; if (l.distanceTo(tip) > H0 * 0.5) { a.pts.push(tip.clone()); setStroke(a.pts.map((p) => lab.worldToLocal(p.clone()))); } }
     else if (a.type === 'wallstroke') { const h = xrPanelHit(r, { mesh: wall }); if (h && curD) { const B = wallBasis(); const x = h.point.dot(new THREE.Vector3(...B.e1)) - curD.c2[0], y = h.point.dot(new THREE.Vector3(...B.e2)) - curD.c2[1]; const s = S.wallStroke; if (!s.length || Math.hypot(s[s.length - 2] - x, s[s.length - 1] - y) > H0 * 0.5) s.push(x, y); } }
   }
@@ -3319,7 +3856,7 @@ renderer.setAnimationLoop((t, frame) => {
   camTick(now); seifTick();
   if (S.spin && !rigid.list.length) { const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), dt * 0.35); knotGroup.quaternion.premultiply(q); }
   if (S.autoRelaxUntil && now > S.autoRelaxUntil) { S.autoRelaxUntil = 0; rope.relax = document.querySelector('[data-tog="relax"]').getAttribute('aria-pressed') === 'true'; }
-  const moved = rope.step(S.xr ? 3 : 4);
+  const moved = seifFlatTick(now) || rmTick(now) || rope.step(S.xr ? 3 : 4); rmCountTick(now);
   const changed = updateDiagram(false);
   if (S.needAutoColor && curD && curD.cr.length) { S.needAutoColor = false; const res = KM.foxColorings(curD.G, S.foxP); if (res.solution) { rope.tags.forEach((T, c) => { const ap = fox.arcOfPoint[c]; for (let i = 0; i < T.length; i++) T[i] = res.solution[ap[i]]; }); foxEvaluate(curD); } S.dirty = true; renderFoxState(); }
   const dirty = S.dirty; if (moved || changed || dirty) { updateTubes(); S.dirty = false; }
@@ -3479,7 +4016,7 @@ pvc.addEventListener('click', (e) => {
 });
 $('photoreset').addEventListener('click', () => { photo.flips = []; processPhoto(); });
 function loadFromRead(res) {
-  loadComps(res.comps, { radius: res.radius }); $('preset').value = '';
+  loadComps(res.comps, { radius: res.radius }); rope.fair = 140; $('preset').value = '';
   if (S.place && S.xr) placeBoardOnSurface(); else placeWall(new THREE.Vector3(0, 0, 1));
   const sm = res.R ? idSummary(res.R) : null; flash(`Çizim 3B’ye aktarıldı${sm ? ': ' + plainHTML(sm.html) : ''}. Şimdi çekip döndürebilirsiniz.`);
 }
@@ -3553,8 +4090,8 @@ const seifW = new Worker(WURL); seifW.postMessage({ type: 'init', role: 'seifert
 let seifSeq = 0;
 const SEIF = { panel: null, panelReq: null, show: false, gens: false, group: new THREE.Group(), tubes: [], genTubes: [], viewReq: 0, info: null };
 knotGroup.add(SEIF.group);
-const seifMatFront = new THREE.MeshStandardMaterial({ color: 0xf0a94a, roughness: 0.55, metalness: 0.0, side: THREE.FrontSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
-const seifMatBack = new THREE.MeshStandardMaterial({ color: 0x3f8fb8, roughness: 0.55, metalness: 0.0, side: THREE.BackSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+const seifMatFront = new THREE.MeshStandardMaterial({ vertexColors: true, color: 0xf0a94a, roughness: 0.55, metalness: 0.0, side: THREE.FrontSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+const seifMatBack = new THREE.MeshStandardMaterial({ vertexColors: true, color: 0x3f8fb8, roughness: 0.55, metalness: 0.0, side: THREE.BackSide, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
 const stripCr = (x) => ({ a: { c: x.a.c, t: x.a.t }, b: { c: x.b.c, t: x.b.t }, overA: x.overA, sign: x.sign, x: x.x, y: x.y });
 seifW.onmessage = (e) => { const m = e.data; if (m.type !== 'seifert') return;
   if (m.purpose === 'panel') { if (m.key !== SEIF.panelReq) return; SEIF.panel = m; renderPanel(); S.infoDirty = true; }
@@ -3573,43 +4110,126 @@ function clearSeif() {
   for (const o of [...SEIF.group.children]) { SEIF.group.remove(o); if (o.geometry && !SEIF.tubes.some((t) => t.mesh === o) && !SEIF.genTubes.some((t) => t.mesh === o)) o.geometry.dispose(); }
   SEIF.tubes.concat(SEIF.genTubes).forEach((t) => t.geo.dispose()); SEIF.tubes = []; SEIF.genTubes = [];
 }
-function seifView(on) {
+function seifView(on, instant) {
   if (on === undefined) on = !SEIF.show;
-  if (!on) { SEIF.show = false; SEIF.viewReq++; clearSeif(); setRopeVisible(true); updateSeifButtons(); drawMenu(); S.infoDirty = true; return; }
-  if (!curD || !curD.cr) return;
-  if (curD.cr.length > 60) { flash('Diyagram çok kalabalık (60 kesişimden fazla). Önce Gerginleştir ya da tahtayı düğüme hizalayın.'); return; }
-  SEIF.show = true; SEIF.viewReq = ++seifSeq;
-  let hs = 0, hn = 0; curD.proj.forEach((q) => { for (let i = 0; i < q.H.length; i++) { hs += q.H[i]; hn++; } });
-  knotGroup.updateMatrixWorld(true);
-  SEIF.frame = { e1: curD.B.e1, e2: curD.B.e2, d: curD.B.d, z0: hs / Math.max(1, hn), inv: knotGroup.matrixWorld.clone().invert() };
-  seifW.postMessage({ type: 'seifert', purpose: 'view', id: SEIF.viewReq, comps2: curD.proj.map((q) => ({ X: q.X, Y: q.Y })), cr: curD.cr.map(stripCr), maxGen: 40 });
+  if (!on) {
+    if (!SEIF.show && !SEIF.flat) return;
+    SEIF.show = false; SEIF.viewReq++; clearSeif(); seifLabel.sp.visible = false; setRopeVisible(true);
+    // put the rope back where it was (only its depth changed, so this is again an isotopy)
+    if (SEIF.orig && SEIF.flatTo) { if (instant) { rope.comps = SEIF.orig.map((P) => P.slice()); rope.version++; if (SEIF.q0) knotGroup.quaternion.copy(SEIF.q0); } else SEIF.flat = { from: rope.comps.map((P) => P.slice()), to: SEIF.orig, t0: performance.now(), dur: 700, back: true, q0: knotGroup.quaternion.clone(), q1: SEIF.q0 }; }
+    else SEIF.flat = null;
+    SEIF.flatTo = null;
+    if (S.xr && S.infoPageBefore !== undefined) { S.infoPage = S.infoPageBefore; S.infoPageBefore = undefined; } updateSeifButtons(); drawMenu(); S.infoDirty = true; return;
+  }
+  if (!rope.comps.length) return;
+  rope.grabs = []; rope.settle = 0; rope.fair = 0; rope.relax = false; rope.tighten = false; syncToggles();
+  const best = bestSurfaceDir(); if (!best) return;
+  if (best.cr.length > 60) { flash('Diyagram çok kalabalık (60 kesişimden fazla). Önce Sadeleştir’i deneyin.'); return; }
+  SEIF.show = true; SEIF.viewReq = ++seifSeq; SEIF.orig = rope.comps.map((P) => P.slice());
+  let hs = 0, hn = 0; best.proj.forEach((q) => { for (let i = 0; i < q.n; i++) { hs += q.H[i]; hn++; } });
+  SEIF.frame = { e1: best.B.e1, e2: best.B.e2, d: best.B.d, z0: hs / Math.max(1, hn), proj: best.proj, cr: best.cr, board: best.board };
+  seifW.postMessage({ type: 'seifert', purpose: 'view', id: SEIF.viewReq, comps2: best.proj.map((q) => ({ X: q.X, Y: q.Y })), cr: best.cr.map(stripCr), maxGen: 40, bump: 1.1 * R0 });
   updateSeifButtons(); drawMenu();
 }
+// a projection direction whose diagram is clean: few crossings, wide crossing angles, no component seen edge-on
+function bestSurfaceDir() {
+  const dirs = [localBasis().d]; const N = 40; for (let i = 0; i < N; i++) { const z = 1 - (i + 0.5) / N, r = Math.sqrt(1 - z * z), th = i * 2.399963; dirs.push([r * Math.cos(th), r * Math.sin(th), z]); }
+  let best = null;
+  dirs.forEach((d, k) => {
+    const B = GEO.basisFromDir(d); const { cr, proj } = GEO.findCrossings(rope.comps, B);
+    let minAng = Math.PI / 2; cr.forEach((x) => { const pa = proj[x.a.c], pb = proj[x.b.c], ia = x.a.i, ib = x.b.i, ja = (ia + 1) % pa.n, jb = (ib + 1) % pb.n; const ax = pa.X[ja] - pa.X[ia], ay = pa.Y[ja] - pa.Y[ia], bx = pb.X[jb] - pb.X[ib], by = pb.Y[jb] - pb.Y[ib]; const c = Math.abs(ax * bx + ay * by) / (Math.hypot(ax, ay) * Math.hypot(bx, by) || 1); minAng = Math.min(minAng, Math.acos(Math.min(1, c))); });
+    let thin = 1; proj.forEach((q) => { let mx = 0, my = 0; for (let i = 0; i < q.n; i++) { mx += q.X[i]; my += q.Y[i]; } mx /= q.n; my /= q.n; let a = 0, b = 0, c = 0; for (let i = 0; i < q.n; i++) { const u = q.X[i] - mx, v = q.Y[i] - my; a += u * u; b += u * v; c += v * v; } const tr = a + c, det = a * c - b * b, l1 = tr / 2 + Math.sqrt(Math.max(0, tr * tr / 4 - det)), l2 = tr / 2 - Math.sqrt(Math.max(0, tr * tr / 4 - det)); thin = Math.min(thin, Math.sqrt(Math.max(0, l2) / (l1 || 1))); });
+    const score = cr.length + 2 * (1 - Math.min(1, minAng / 0.7)) + 4 * Math.max(0, 0.4 - thin) / 0.4 - (k === 0 ? 0.25 : 0);
+    if (!best || score < best.score) best = { d, B, cr, proj, score, board: k === 0 };
+  });
+  return best;
+}
 const GEN_COLORS = [0xff6a4d, 0x7bd88f, 0xb38cff, 0xffd166, 0x4dd0e1, 0xff8fc8, 0xa3e635, 0xfb923c];
+// Heights that put each rope point on the surface's boundary (matched by arclength along the shadow), then nudged so that
+// every crossing keeps its over/under with at least gap g: with the shadow fixed, sliding depths between two such height
+// functions never lets two strands meet, so the animation is an isotopy.
+function flatHeights(proj, cr, mesh, g) {
+  const Z = proj.map((q, c) => { const Bz = mesh.boundary[c], Bs = mesh.boundaryS[c], L = mesh.compL[c]; if (!Bz || !Bs || !Bs.length) return null;
+    const ord = Array.from(Bs.keys()).sort((a, b) => Bs[a] - Bs[b]); const ss = ord.map((k) => Bs[k]), zz = ord.map((k) => Bz[3 * k + 2]);
+    const zAt = (sv) => { let lo = 0, hi = ss.length - 1; if (sv <= ss[0] || sv >= ss[hi]) { const a = ss[hi], b = ss[0] + L, t = ((sv < ss[0] ? sv + L : sv) - a) / ((b - a) || 1); return zz[hi] + (zz[0] - zz[hi]) * Math.min(1, Math.max(0, t)); } while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (ss[mid] <= sv) lo = mid; else hi = mid; } const t = (sv - ss[lo]) / ((ss[hi] - ss[lo]) || 1); return zz[lo] + (zz[hi] - zz[lo]) * t; };
+    const z = new Float64Array(q.n); let cum = 0; for (let i = 0; i < q.n; i++) { if (i > 0) cum += Math.hypot(q.X[i] - q.X[i - 1], q.Y[i] - q.Y[i - 1]); z[i] = zAt(cum % L); } return z; });
+  for (let it = 0; it < 30; it++) { let worst = 0;
+    for (const x of cr) { const za = Z[x.a.c], zb = Z[x.b.c]; if (!za || !zb) continue; const na = za.length, nb = zb.length, a0 = x.a.i, a1 = (a0 + 1) % na, b0 = x.b.i, b1 = (b0 + 1) % nb, u = x.a.u, v = x.b.u;
+      const ha = za[a0] * (1 - u) + za[a1] * u, hb = zb[b0] * (1 - v) + zb[b1] * v, gap = x.overA ? ha - hb : hb - ha; if (gap >= g) continue;
+      const dl = (g - gap) / 2 + 1e-6, sa = x.overA ? dl : -dl; worst = Math.max(worst, g - gap); za[a0] += sa; za[a1] += sa; zb[b0] -= sa; zb[b1] -= sa; }
+    if (!worst) break; }
+  return Z;
+}
 function showSeifMesh(m) {
   clearSeif(); if (!SEIF.show) return;
   if (m.error || !m.mesh) { flash('Yüzey kurulamadı.'); console.warn(m.error); SEIF.show = false; updateSeifButtons(); return; }
-  const F = SEIF.frame, e1 = F.e1, e2 = F.e2, d = F.d, v = new THREE.Vector3();
-  const toLocal = (P) => { const L = new Float32Array(P.length); for (let i = 0; i < P.length; i += 3) { const x = P[i], y = P[i + 1], z = F.z0 + P[i + 2]; v.set(x * e1[0] + y * e2[0] + z * d[0], x * e1[1] + y * e2[1] + z * d[1], x * e1[2] + y * e2[2] + z * d[2]).applyMatrix4(F.inv); L[i] = v.x; L[i + 1] = v.y; L[i + 2] = v.z; } return L; };
-  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(toLocal(m.mesh.pos), 3)); geo.setIndex(new THREE.BufferAttribute(m.mesh.idx, 1)); geo.computeVertexNormals();
-  SEIF.group.add(new THREE.Mesh(geo, seifMatFront), new THREE.Mesh(geo, seifMatBack));
+  const F = SEIF.frame, e1 = F.e1, e2 = F.e2, d = F.d;
+  const toLocal = (P) => { const L = new Float32Array(P.length); for (let i = 0; i < P.length; i += 3) { const x = P[i], y = P[i + 1], z = F.z0 + P[i + 2]; L[i] = x * e1[0] + y * e2[0] + z * d[0]; L[i + 1] = x * e1[1] + y * e2[1] + z * d[1]; L[i + 2] = x * e1[2] + y * e2[2] + z * d[2]; } return L; };
+  const LP = toLocal(m.mesh.pos); let rad = 0; for (let i = 0; i < LP.length; i += 3) rad = Math.max(rad, Math.hypot(LP[i], LP[i + 1], LP[i + 2])); SEIF.rad = rad;
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(LP, 3)); geo.setIndex(new THREE.BufferAttribute(m.mesh.idx, 1)); geo.computeVertexNormals();
+  { // shade by height so stacked Seifert disks read as separate sheets (higher = nearer the viewer = lighter)
+    const P = m.mesh.pos; let lo = Infinity, hi = -Infinity; for (let i = 2; i < P.length; i += 3) { lo = Math.min(lo, P[i]); hi = Math.max(hi, P[i]); }
+    const col = new Float32Array(P.length); for (let i = 0; i < P.length; i += 3) { const t = hi > lo ? (P[i + 2] - lo) / (hi - lo) : 1, f = 0.62 + 0.38 * t; col[i] = col[i + 1] = col[i + 2] = f; }
+    geo.setAttribute('color', new THREE.BufferAttribute(col, 3)); }
+  const meshF = new THREE.Mesh(geo, seifMatFront), meshB = new THREE.Mesh(geo, seifMatBack); meshF.visible = meshB.visible = false; SEIF.group.add(meshF, meshB); SEIF.meshes = [meshF, meshB];
   const tube = (P, r, hex) => { const Q = toLocal(P), n = Q.length / 3, col = new Float32Array(n * 3), c = new THREE.Color(hex); for (let i = 0; i < n; i++) { col[3 * i] = c.r; col[3 * i + 1] = c.g; col[3 * i + 2] = c.b; } const t = new Tube(); t.update(Q, r, col); return t; };
-  m.mesh.boundary.forEach((Bd) => { if (Bd.length < 9) return; const t = tube(Bd, R0 * 0.7, 0xf4ecdc); SEIF.tubes.push(t); SEIF.group.add(t.mesh); });
-  (m.mesh.cycles || []).forEach((Cy, k) => { if (Cy.length < 9) return; const t = tube(Cy, R0 * 0.5, GEN_COLORS[k % GEN_COLORS.length]); t.mesh.visible = SEIF.gens; SEIF.genTubes.push(t); SEIF.group.add(t.mesh); });
-  SEIF.info = m.surf; setRopeVisible(false); updateSeifButtons(); drawMenu(); S.infoDirty = true;
-  // tilt the knot so the stacked discs and twisted bands are seen obliquely
-  const cam = S.xr ? renderer.xr.getCamera() : camera; cam.updateMatrixWorld(true); const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0).normalize();
-  SEIF.tilt = { t0: performance.now(), q0: knotGroup.quaternion.clone(), axis: right, ang: -0.85 };
-  const s = m.surf; flash(`Seifert yüzeyi: ${s.s} disk, ${s.c} bant, χ = ${String(s.chi).replace('-', '−')}, cins ${s.genus}. Turuncu: pozitif yüz, mavi: negatif yüz.`);
+  (m.mesh.cycles || []).forEach((Cy, k) => { if (Cy.length < 9) return; const t = tube(Cy, R0 * 0.5, GEN_COLORS[k % GEN_COLORS.length]); t.mesh.visible = false; SEIF.genTubes.push(t); SEIF.group.add(t.mesh); });
+  // the rope keeps its shadow and only changes depth until it lies on the surface's boundary
+  const Z = flatHeights(F.proj, F.cr, m.mesh, 2.1 * R0);
+  const target = SEIF.orig.map((P, c) => { const q = F.proj[c], out = P.slice(); if (!q || !Z[c]) return out;
+    for (let i = 0; i < q.n; i++) { const z = F.z0 + Z[c][i], x = q.X[i], y = q.Y[i]; out[3 * i] = x * e1[0] + y * e2[0] + z * d[0]; out[3 * i + 1] = x * e1[1] + y * e2[1] + z * d[1]; out[3 * i + 2] = x * e1[2] + y * e2[2] + z * d[2]; }
+    return out; });
+  // turn the knot (rigidly) so that the chosen projection direction is the board's: the board then shows the very diagram the surface is built on
+  const par = knotGroup.parent; par.updateMatrixWorld(true); const pq = par.getWorldQuaternion(new THREE.Quaternion()).invert(); const WB = wallBasis();
+  const tp = (a) => new THREE.Vector3(...a).applyQuaternion(pq).normalize();
+  const Mt = new THREE.Matrix4().makeBasis(tp(WB.e1), tp(WB.e2), tp(WB.d)), Ml = new THREE.Matrix4().makeBasis(new THREE.Vector3(...e1), new THREE.Vector3(...e2), new THREE.Vector3(...d));
+  const q1 = new THREE.Quaternion().setFromRotationMatrix(Mt.multiply(Ml.transpose())); SEIF.q0 = knotGroup.quaternion.clone();
+  SEIF.flatTo = target; SEIF.flat = { from: SEIF.orig.map((P) => P.slice()), to: target, t0: performance.now(), dur: 900, q0: knotGroup.quaternion.clone(), q1 };
+  SEIF.info = m.surf; updateSeifButtons(); drawMenu(); S.infoDirty = true;
+  drawSeifLabel(m.surf); if (S.xr) { S.infoPageBefore = S.infoPage; S.infoPage = 'surf'; }
+  const s = m.surf; flash(`Seifert yüzeyi: ${s.s} disk, ${s.c} bant, χ = ${String(s.chi).replace('-', '−')}, cins ${s.genus}. İp, gölgesi değişmeden yüzeyin kenarına iniyor (yalnızca derinlik değişir: izotopi). Turuncu pozitif, mavi negatif yüz.${F.board ? '' : ' Yüzey, gölgesi en temiz olan yönden kuruldu.'}`);
+}
+function seifFlatTick(now) {
+  const A = SEIF.flat; if (!A) return false; S.suppressMoves = true; prevD = null;
+  const u = Math.min(1, (now - A.t0) / A.dur), e = u * u * (3 - 2 * u);
+  if (A.q1) knotGroup.quaternion.slerpQuaternions(A.q0, A.q1, e);
+  rope.comps = A.from.map((P, c) => { const Q = A.to[c]; if (!Q || Q.length !== P.length) return (Q || P).slice(); const R = new Array(P.length); for (let i = 0; i < P.length; i++) R[i] = P[i] + (Q[i] - P[i]) * e; return R; }); rope.version++;
+  if (u >= 1) { SEIF.flat = null;
+    if (A.back) { SEIF.orig = null; rope.settle = 5; }
+    else if (SEIF.show) { (SEIF.meshes || []).forEach((mm) => { mm.visible = true; }); SEIF.genTubes.forEach((t) => { t.mesh.visible = SEIF.gens; }); seifLabel.sp.visible = true;
+    } }
+  return true;
+}
+const seifLabel = (() => { const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 340; const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false })); sp.renderOrder = 10; sp.visible = false; lab.add(sp); return { cv, tex, sp }; })();
+function drawSeifLabel(s) {
+  const { cv, tex } = seifLabel, g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height);
+  g.fillStyle = 'rgba(12,22,19,0.86)'; g.beginPath(); g.roundRect(4, 4, cv.width - 8, cv.height - 8, 28); g.fill(); g.strokeStyle = '#f0a94a'; g.lineWidth = 3; g.stroke();
+  const mn = (x) => String(x).replace('-', '−'), T = s.topo; const R = merged(); const k = R && R.id && R.id.kind === 'prime' && R.id.cands.length === 1 ? KBYNAME.get(R.id.cands[0].name) : null;
+  g.fillStyle = '#f0a94a'; g.font = '600 40px "IBM Plex Sans", sans-serif'; g.fillText('Seifert yüzeyi F', 36, 62);
+  g.fillStyle = '#eef3ee'; g.font = '400 44px "STIX Two Text", serif';
+  g.fillText(`χ(F) = s − c = ${s.s} − ${s.c} = ${mn(s.chi)}`, 36, 122);
+  if (T) g.fillText(`üçgenleme: V − E + F = ${T.V} − ${T.E} + ${T.F} = ${mn(T.chi)} ${T.chi === s.chi ? '✓' : '✗'}`, 36, 180);
+  g.fillText(`sınır ${T ? T.b : s.mu} bileşen · ${T && !T.orientable ? 'yönlendirilemez' : 'yönlendirilebilir'} · cins g(F) = ${s.genus}`, 36, 238);
+  g.fillStyle = '#a9bdb4'; g.font = '400 34px "IBM Plex Sans", sans-serif';
+  const extra = s.genus === 0 && s.mu === 2 && s.chi === 0 ? ' · halka: bir Hopf bandı ya da bükümlü halka' : '';
+  g.fillText(k ? `g(F) = (2 − χ − b)/2 · düğümün 3-cinsi g(K) = ${k.g}${s.genus === +k.g ? ' (en küçük)' : ''}` : `g(F) = (2 − χ − b)/2${extra}`, 36, 296);
+  tex.needsUpdate = true;
+}
+function placeSeifLabel() {
+  const sp = seifLabel.sp; if (!sp.visible) return; const w = new THREE.Vector3(); knotGroup.getWorldPosition(w);
+  const up = new THREE.Vector3(0, 1, 0); w.addScaledVector(up, (SEIF.rad || KNOT_R) * knotGroup.scale.x + 0.07); lab.updateMatrixWorld(true); sp.position.copy(lab.worldToLocal(w));
+  const sc = S.xr ? 0.36 : 0.42; sp.scale.set(sc, sc * 340 / 1024, 1);
 }
 function seifGens(on) { SEIF.gens = on === undefined ? !SEIF.gens : on; SEIF.genTubes.forEach((t) => { t.mesh.visible = SEIF.gens; }); if (SEIF.gens && !SEIF.show) seifView(true); updateSeifButtons(); drawMenu(); }
 function seifFromBraid() {
   const R = merged(), bw = R && braidOfId(R.id); if (!bw || !bw.word.length) { flash('Önce tabloda tanınan bir düğüm ya da bağ yükleyin.'); return; }
-  seifView(false); loadComps(GEO.braidClosure(bw.word, bw.strands), { relax: false }); placeWall(new THREE.Vector3(0, 0, 1).applyQuaternion(knotGroup.getWorldQuaternion(new THREE.Quaternion())));
+  seifView(false, true); loadComps(GEO.braidClosure(bw.word, bw.strands), { relax: false }); placeWall(new THREE.Vector3(0, 0, 1).applyQuaternion(knotGroup.getWorldQuaternion(new THREE.Quaternion())));
   setTimeout(() => { updateDiagram(true); seifView(true); }, 60);
   flash('Örgü kapanışının kanonik Seifert yüzeyi: diskler iplikler, bantlar örgü harfleri.');
 }
 function seifTick() {
+  placeSeifLabel();
   if (SEIF.show && rope.grabs && rope.grabs.length) seifView(false);
   const T = SEIF.tilt; if (T) { S.suppressMoves = true; prevD = null; const u = Math.min(1, (performance.now() - T.t0) / 800), e = u * u * (3 - 2 * u); knotGroup.quaternion.copy(new THREE.Quaternion().setFromAxisAngle(T.axis, T.ang * e).multiply(T.q0)); if (u >= 1) SEIF.tilt = null; }
 }
@@ -3638,7 +4258,7 @@ function torusAlex(p, q) { // (t^{pq}−1)(t−1)/((t^p−1)(t^q−1)) as coeffi
   return out;
 }
 function loadSingularity(a) {
-  seifView(false); loadComps(SF.singularityLink(a.p, a.q, a.extra), { relax: false });
+  seifView(false, true); loadComps(SF.singularityLink(a.p, a.q, a.extra), { relax: false });
   flash(`{${a.tex} = 0} ∩ S³: stereografik izdüşümle R³'e taşındı.`);
 }
 /* --- helpers for groups and matrices --- */
@@ -3689,7 +4309,8 @@ function renderSurf(R) {
   else if (P.error) SK.push(['Seifert matrisi', 'hesaplanamadı']);
   else {
     const s = P.surf; SK.push(['Kaynak', P.src === 'braid' ? 'tanınan düğümün örgü kapanışı (Seifert algoritması)' : P.src === 'unknot' ? 'disk' : 'ekrandaki diyagram']);
-    SK.push(['Yüzey F', `${s.s} disk, ${s.c} bant · χ(F) = ${mn(s.chi)} · cins ${s.genus}${R.mu > 1 ? ` · ${R.mu} sınır bileşeni` : ''}`]);
+    SK.push(['Yüzey F', `${s.s} disk, ${s.c} bant · χ(F) = s − c = ${mn(s.chi)} · cins g(F) = (2 − χ − b)/2 = ${s.genus}${R.mu > 1 ? ` · ${R.mu} sınır bileşeni` : ''}`]);
+    if (s.topo) SK.push(['Üçgenlemeden', `V − E + F = ${s.topo.V} − ${s.topo.E} + ${s.topo.F} = ${mn(s.topo.chi)} ${s.topo.chi === s.chi ? '✓' : '✗'} · sınır ${s.topo.b} bileşen${s.topo.b === R.mu ? ' ✓' : ''} · ${s.topo.orientable ? 'yönlendirilebilir ✓' : 'yönlendirilemez'}`]);
     const gmin = R.mu === 1 ? (k ? +k.g : R.genusLower === R.genusUpper ? R.genusLower : null) : null;
     if (gmin !== null && !isNaN(gmin)) SK.push(['En küçük cins', `g = ${gmin} · ${s.genus === gmin ? 'bu yüzey en küçük cinsli ✓' : 'bu yüzey en küçük cinsli değil'}`]);
     if (P.V && P.V.length) SK.push(['Seifert matrisi V', `${P.V.length} × ${P.V.length}, V<sub>ij</sub> = lk(γ<sub>i</sub>, γ<sub>j</sub><sup>+</sup>)` + (P.V.length <= 10 ? matHTML(P.V) : ' (gösterilmeyecek kadar büyük)')]);
@@ -3768,12 +4389,253 @@ function cuspSVG(m, l) { // fundamental parallelogram of the cusp torus, lattice
 $('seifbtn').addEventListener('click', () => seifView());
 $('genbtn').addEventListener('click', () => seifGens());
 $('seifbraid').addEventListener('click', () => seifFromBraid());
+/* ======================= Reidemeister moves on the rope · braids ======================= */
+const rmW = new Worker(WURL); rmW.postMessage({ type: 'init', role: 'rm' });
+const RMS = { busy: false, auto: false, id: 0, cid: 0, anim: null, counts: null, countKey: null, bareRun: 0, stats: null };
+const BRS = { word: null, n: 0, hist: [], busy: false, id: 0, play: null, axis: null, morph: null, pendingHist: false };
+const RM_COL = { R1: 0xff6a4d, R2: 0x4dd0e1, R3: 0xffd166, 'R1+': 0xff6a4d, 'R2+': 0x4dd0e1 };
+const RM_TXT = { R1: 'R1: kıvrım çözüldü', R2: 'R2: iki kesişim birlikte kalktı', R3: 'R3: iplik bir kesişimin üzerinden kaydı', 'R1+': 'R1: kıvrım eklendi', 'R2+': 'R2: bir iplik ötekinin üzerinden itildi' };
+const rmHL = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), new THREE.MeshBasicMaterial({ color: 0xffc23d, transparent: true, opacity: 0.3, depthWrite: false })); rmHL.visible = false; rmHL.renderOrder = 5; knotGroup.add(rmHL);
+const brAxis = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 12), new THREE.MeshBasicMaterial({ color: 0xffc23d, transparent: true, opacity: 0.55 })); brAxis.visible = false; knotGroup.add(brAxis);
+function localBasis() { const B = wallBasis(); knotGroup.updateMatrixWorld(true); const q = knotGroup.getWorldQuaternion(new THREE.Quaternion()).invert(); const tf = (a) => new THREE.Vector3(...a).applyQuaternion(q).normalize().toArray(); return { e1: tf(B.e1), e2: tf(B.e2), d: tf(B.d) }; }
+const meanH = (B) => { let s = 0, n = 0; rope.comps.forEach((P) => { for (let i = 0; i < P.length; i += 3) { s += P[i] * B.d[0] + P[i + 1] * B.d[1] + P[i + 2] * B.d[2]; n++; } }); return n ? s / n : 0; };
+const fromProj = (B, u, v, h) => new THREE.Vector3(u * B.e1[0] + v * B.e2[0] + h * B.d[0], u * B.e1[1] + v * B.e2[1] + h * B.d[1], u * B.e1[2] + v * B.e2[2] + h * B.d[2]);
+function rmIdle() { return !RMS.busy && !RMS.anim && !BRS.busy && !BRS.play && !BRS.morph && !BRS.sweep && !SEIF.flat; }
+function rmRequest(kind) {
+  if (!rmIdle() || !rope.comps.length) return false;
+  if (SEIF.show) seifView(false, true);
+  if (kind === 'R1+') { rmAddKink(); return true; }
+  RMS.busy = true; RMS.kind = kind; rope.grabs = []; rope.settle = 0; rope.relax = false; rope.tighten = false; syncToggles();
+  RMS.B = localBasis(); RMS.id++; RMS.from = rope.comps.map((P) => P.slice());
+  rmW.postMessage({ type: 'rmove', id: RMS.id, kind, comps: RMS.from, B: RMS.B, r: R0, bare: kind === 'simp' && RMS.bareRun < 6 });
+  updateRButtons(); return true;
+}
+function rmAddKink() {
+  const B = localBasis(); for (let t = 0; t < 40; t++) { const c = Math.floor(Math.random() * rope.comps.length), n = rope.comps[c].length / 3, i = Math.floor(Math.random() * n);
+    pushUndo(); if (rope.addKink(c, i, Math.random() < 0.5 ? 1 : -1, { d: B.d })) { const p = new THREE.Vector3(...GEO.pt(rope.comps[c], Math.min(i, rope.comps[c].length / 3 - 1))); rmFlashAt(p, 'R1+'); flash(RM_TXT['R1+'] + ' (bir kesişim daha).'); return; } undoStack.pop(); }
+  flash('Kıvrım için boş yer bulunamadı.');
+}
+function rmFlashAt(p, type) { rmHL.position.copy(p); rmHL.scale.setScalar(0.06); rmHL.material.color.setHex(RM_COL[type] || 0xffc23d); rmHL.material.opacity = 0.32; rmHL.visible = true; RMS.hlT = performance.now(); }
+rmW.onmessage = (e) => { const m = e.data;
+  if (m.type === 'braidify') { onBraidify(m); return; }
+  if (m.type !== 'rmove') return;
+  if (m.kind === 'count') { if (m.id === RMS.cid) { RMS.counts = m.counts; updateRButtons(); } return; }
+  if (m.id !== RMS.id) return; RMS.busy = false; if (m.error) console.warn(m.error);
+  if (!m.comps) { rmNone(m); updateRButtons(); return; }
+  if (!RMS.auto) pushUndo();
+  const p = fromProj(RMS.B, m.mv.x, m.mv.y, meanH(RMS.B)); rmFlashAt(p, m.mv.type);
+  const legs = m.stages ? [{ to: m.stages[0], dur: 350 }, { to: m.stages[1], dur: 750 }, { to: m.comps, dur: 350 }] : [{ to: m.comps, dur: RMS.auto ? 560 : 800 }];
+  RMS.anim = { from: RMS.from, legs, leg: 0, to: legs[0].to, t0: performance.now(), dur: legs[0].dur, mv: m.mv, n0: m.n0, n1: m.n1 };
+  if (RMS.auto && RMS.stats) RMS.stats[m.mv.type] = (RMS.stats[m.mv.type] || 0) + 1;
+  RMS.bareRun = m.mv.type === 'R3' && m.n1 >= m.n0 ? RMS.bareRun + 1 : 0;
+  updateRButtons();
+};
+function rmTick(now) {
+  if (rmHL.visible && !RMS.anim && now - (RMS.hlT || 0) > 1600) rmHL.visible = false;
+  if (BRS.play) return brPlayTick(now);
+  if (BRS.sweep) return brSweepTick(now);
+  if (BRS.morph) return brMorphTick(now);
+  const A = RMS.anim; if (!A) return false; S.suppressMoves = true; prevD = null;
+  const u = Math.min(1, (now - A.t0) / A.dur), e = u * u * (3 - 2 * u);
+  rope.comps = A.from.map((P, c) => { const Q = A.to[c]; if (!Q || P.length !== Q.length) return (Q || P).slice(); const R = new Array(P.length); for (let i = 0; i < P.length; i++) R[i] = P[i] + (Q[i] - P[i]) * e; return R; });
+  rope.version++; rmHL.material.opacity = 0.34 * (1 - 0.5 * u);
+  if (u >= 1 && A.leg < A.legs.length - 1) { A.leg++; A.from = A.to.map((P) => P.slice()); A.to = A.legs[A.leg].to; A.dur = A.legs[A.leg].dur; A.t0 = now; return true; }
+  if (u >= 1) {
+    rope.comps = A.to.map((P) => GEO.resampleClosed(P, H0)); rope.tags = rope.comps.map((P) => new Array(P.length / 3).fill(-1)); rope.settle = 10; rope.fair = 45; rope.version++; RMS.anim = null; RMS.hlT = now; S.needAutoColor = S.colorMode === 'fox';
+    { const t = A.mv.type.replace('+', ''); if (S.counts[t] !== undefined) { S.counts[t]++; S.log.unshift({ t: now, type: t, dir: A.mv.type.endsWith('+') ? 1 : t === 'R3' ? 0 : -1 }); renderRlog(); } if (curD) S.flashes.push({ x: A.mv.x, y: A.mv.y, type: t, t0: now }); }
+    if (!RMS.auto) flash(`${RM_TXT[A.mv.type] || A.mv.type}${A.mv.face === 'out' ? ' (boş yüz dıştaki bölge: yay her şeyin üstünden dolaştırıldı, küre üzerinde bir R hamlesi)' : ''}: ${A.n0} → ${A.n1} kesişim.`);
+    else { const st = RMS.stats; S.xrMsg = `Sadeleştiriliyor: ${st.start} → ${A.n1} kesişim`; S.xrMsgT = now; }
+    if (RMS.auto) setTimeout(() => { if (RMS.auto) { if (!rmRequest('simp')) setTimeout(() => RMS.auto && rmRequest('simp'), 400); } }, 380);
+    updateRButtons();
+  }
+  return true;
+}
+function rmNone(m) {
+  const names = { R1: 'R1', R2: 'R2', R3: 'R3', 'R2+': 'R2 ekleme' };
+  if (RMS.auto) {
+    RMS.auto = false; const st = RMS.stats || { start: m.n0 }; const R = merged(); const id = R && R.id;
+    let cmin = null; if (id && id.kind === 'prime' && id.cands.length === 1) { const k = KBYNAME.get(id.cands[0].name); cmin = k ? k.cr : null; } else if (id && id.kind === 'unknot') cmin = 0;
+    const used = ['R1', 'R2', 'R3'].filter((t) => st[t]).map((t) => `${t} ×${st[t]}`).join(', ') || 'hamle yok';
+    let tail = ''; if (cmin !== null) tail = m.n0 === cmin ? ` En az kesişim sayısına ulaşıldı: c = ${cmin} ✓` : ` Bu düğümün kesişim sayısı c = ${cmin}. Kalan fazlalığı tek bir R1, R2 ya da R3 azaltmıyor; flype ya da geçici olarak kesişim ekleyen hamleler gerekir (Gevşet ya da Örgüye dönüştür ve yeniden dene).`;
+    rope.fair = 220; flash(`Sadeleştirme bitti: ${st.start} → ${m.n0} kesişim (${used}).${tail}`);
+    if (BRS.afterSimp) setTimeout(() => braidConvert(), 1800); S.xrMsg = `Bitti: ${st.start} → ${m.n0} kesişim`; S.xrMsgT = performance.now(); RMS.bareRun = 0;
+  } else flash(m.kind === 'R2+' ? 'R2 ile kesişim eklenecek boş bir yer bulunamadı.' : `Şu an uygulanabilecek bir ${names[m.kind] || m.kind} hamlesi yok.`);
+}
+function rmAuto() {
+  if (RMS.auto) { RMS.auto = false; updateRButtons(); flash('Sadeleştirme durduruldu.'); return; }
+  if (!rmIdle()) return; pushUndo(); RMS.auto = true; RMS.bareRun = 0; RMS.stats = { start: curD ? curD.cr.length : 0 }; rmRequest('simp');
+}
+function rmCountTick(now) {
+  if (!rmIdle() || RMS.auto || rope.grabs.length || rope.relax || rope.tighten || !RES.key || RMS.countKey === RES.key || now - (RMS.countT || 0) < 900 || rope.totalN() > 3500) return;
+  RMS.countKey = RES.key; RMS.countT = now; RMS.cid = ++RMS.id; RMS.busy = false;
+  rmW.postMessage({ type: 'rmove', id: RMS.cid, kind: 'count', comps: rope.comps.map((P) => P.slice()), B: localBasis(), r: R0 });
+}
+function updateRButtons() {
+  const c = RMS.counts || {}; const set = (id, txt, dis) => { const b = $(id); if (!b) return; b.innerHTML = txt; b.disabled = !!dis; };
+  set('rmSimp', RMS.auto ? 'Durdur' : 'Sadeleştir <small>R1·R2·R3</small>', false); const sb = $('rmSimp'); if (sb) sb.setAttribute('aria-pressed', String(RMS.auto));
+  set('rmR1', `R1 −${c.R1 !== undefined ? ` <small>${c.R1}</small>` : ''}`); set('rmR2', `R2 −${c.R2 !== undefined ? ` <small>${c.R2}</small>` : ''}`); set('rmR3', `R3${c.R3 !== undefined ? ` <small>${c.R3}</small>` : ''}`);
+  drawMenu();
+}
+function syncToggles() { document.querySelectorAll('[data-tog]').forEach((b) => b.setAttribute('aria-pressed', String(togVal(b.dataset.tog)))); }
+/* --- knot → braid (Alexander) --- */
+function braidConvert() {
+  if (!rmIdle() || !rope.comps.length) return; if (SEIF.show) seifView(false, true);
+  if (curD && curD.cr.length > 14 && !BRS.afterSimp) { BRS.afterSimp = true; flash(`Diyagramda ${curD.cr.length} kesişim var: önce R1·R2·R3 ile sadeleştiriliyor, sonra örgüye sarılacak.`); rmAuto(); return; }
+  BRS.afterSimp = false;
+  BRS.busy = true; rope.grabs = []; rope.settle = 0; rope.fair = 0; rope.relax = false; rope.tighten = false; syncToggles();
+  BRS.B = localBasis(); BRS.id++; rmW.postMessage({ type: 'braidify', id: BRS.id, comps: rope.comps.map((P) => P.slice()), B: BRS.B, r: R0, h: H0 });
+  flash('Örgüye dönüştürülüyor: eksen seçiliyor…'); drawMenu();
+}
+function onBraidify(m) {
+  if (m.id !== BRS.id) return; BRS.busy = false;
+  BRS.afterSimp = false;
+  if (m.error || !m.done || !m.alexOk) { console.warn(m.error);
+    flash(!m.error && !m.done ? `Dönüşüm ${m.tries || 1} farklı bakış yönünde denendi ama ${m.steps} dolaştırmadan sonra bitmedi: diyagram çok karışık. Önce Sadeleştir’i deneyin.` : !m.error ? 'Okunan örgü sözcüğü doğrulanamadı; düğüm değiştirilmedi.' : 'Dönüşüm başarısız oldu: denenen bakış yönlerinin hiçbirinde örgü kurulamadı. Önce Sadeleştir’i deneyin ya da düğümü biraz döndürüp yeniden deneyin.');
+    drawMenu(); return; }
+  pushUndo(); const Bm = m.B || BRS.B; BRS.B = Bm;
+  // if another view was cleaner, first turn the knot (rigidly) so that this view faces the board
+  let rot = null;
+  if (!m.board) { const par = knotGroup.parent; par.updateMatrixWorld(true); const pq = par.getWorldQuaternion(new THREE.Quaternion()).invert(); const WB = wallBasis(); const tp = (a) => new THREE.Vector3(...a).applyQuaternion(pq).normalize();
+    const Mt = new THREE.Matrix4().makeBasis(tp(WB.e1), tp(WB.e2), tp(WB.d)), Ml = new THREE.Matrix4().makeBasis(new THREE.Vector3(...Bm.e1), new THREE.Vector3(...Bm.e2), new THREE.Vector3(...Bm.d));
+    rot = { q0: knotGroup.quaternion.clone(), q1: new THREE.Quaternion().setFromRotationMatrix(Mt.multiply(Ml.transpose())), t0: performance.now(), dur: 800 }; }
+  // axis: a thin rod along d through the chosen point
+  const h0 = meanH(Bm); const c0 = fromProj(Bm, m.axis[0], m.axis[1], h0), dv = new THREE.Vector3(...Bm.d);
+  brAxis.position.copy(c0); brAxis.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dv); brAxis.scale.set(0.004, 0.9, 0.004); brAxis.visible = !rot;
+  BRS.play = { frames: m.frames, final: m.final, k: 0, t0: performance.now() + (rot ? rot.dur : 0), m, rot };
+  const view = rot ? 'Düğüm, kesişimleri en temiz görünen yöne döndürülüyor (yalnızca döndürme, düğüm değişmez). ' : '';
+  flash(m.steps ? `${view}Eksen seçildi. Eksenin etrafında geriye giden ${m.steps} parça, geçtiği her şeyin üstünden ya da altından öne dolaştırılacak (Alexander).` : `${view}Eksen seçildi. Düğüm bu eksenin etrafında zaten hep aynı yönde dönüyor, yani zaten kapalı bir örgü: dolaştırılacak parça yok.`);
+}
+function brPlayTick(now) {
+  const P = BRS.play, F = P.frames; S.suppressMoves = true; prevD = null;
+  if (P.rot) { const R = P.rot, u = Math.min(1, (now - R.t0) / R.dur), e = u * u * (3 - 2 * u); knotGroup.quaternion.slerpQuaternions(R.q0, R.q1, e); if (u < 1) return true; P.rot = null; brAxis.visible = true; P.t0 = now; }
+  if (P.k >= F.length) { rope.comps = P.final.map((Q) => Q.slice()); rope.tags = rope.comps.map((Q) => new Array(Q.length / 3).fill(-1)); rope.version++; BRS.play = null; S.needAutoColor = S.colorMode === 'fox'; brSweepStart(P.m); return true; }
+  const f = F[P.k];
+  if (f.kind === 'base') { rope.comps = f.comps.map((Q) => Q.slice()); rope.version++; P.k++; P.t0 = now; P.from = rope.comps.map((Q) => Q.slice()); return true; }
+  const dur = f.kind === 'lift' ? 380 : 760, u = Math.min(1, (now - P.t0) / dur), e = u * u * (3 - 2 * u);
+  rope.comps = P.from.map((Q, c) => { const T = f.comps[c]; if (Q.length !== T.length) return T.slice(); const R = new Array(Q.length); for (let i = 0; i < Q.length; i++) R[i] = Q[i] + (T[i] - Q[i]) * e; return R; }); rope.version++;
+  if (u >= 1) { P.k++; P.t0 = now; P.from = rope.comps.map((Q) => Q.slice()); }
+  return true;
+}
+/* --- reading the word: a half-plane sweeps once around the axis; every crossing it passes is one letter --- */
+const brSweep = (() => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(12), 3)); g.setIndex([0, 1, 2, 0, 2, 3]);
+  const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0xffc23d, transparent: true, opacity: 0.2, side: THREE.DoubleSide, depthWrite: false })); m.visible = false; m.frustumCulled = false; m.renderOrder = 4; knotGroup.add(m); return m; })();
+const brDots = [];
+function brDot(k) { while (brDots.length <= k) { const d = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffe08a, transparent: true, opacity: 0.9, depthTest: false })); d.renderOrder = 7; d.visible = false; knotGroup.add(d); brDots.push(d); } return brDots[k]; }
+const brLabel = (() => { const cv = document.createElement('canvas'); cv.width = 1024; cv.height = 260; const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false })); sp.renderOrder = 10; sp.visible = false; lab.add(sp); return { cv, tex, sp }; })();
+function drawBrLabel(title, letters, foot) {
+  if (!S.xr) { const el = $('brread'); if (el) { el.hidden = false; el.querySelector('b').textContent = title; el.querySelector('.w').textContent = '\u200e' + letters + '\u200e'; el.querySelector('small').textContent = foot; } brLabel.sp.visible = false; return; }
+  const { cv, tex } = brLabel, g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height);
+  g.fillStyle = 'rgba(12,22,19,0.88)'; g.beginPath(); g.roundRect(4, 4, cv.width - 8, cv.height - 8, 26); g.fill(); g.strokeStyle = '#ffc23d'; g.lineWidth = 3; g.stroke();
+  g.fillStyle = '#ffc23d'; g.font = '600 38px "IBM Plex Sans", sans-serif'; g.fillText(title, 32, 58);
+  let fs = 52; g.font = `400 ${fs}px "STIX Two Text", serif`; while (fs > 26 && g.measureText(letters).width > cv.width - 64) { fs -= 2; g.font = `400 ${fs}px "STIX Two Text", serif`; }
+  let txt = letters; while (txt.length > 4 && g.measureText(txt).width > cv.width - 64) txt = '…' + txt.slice(2);
+  g.fillStyle = '#eef3ee'; g.fillText(txt, 32, 138);
+  g.fillStyle = '#a9bdb4'; g.font = '400 32px "IBM Plex Sans", sans-serif'; g.fillText(foot, 32, 210); tex.needsUpdate = true;
+}
+function placeBrLabel() {
+  const sp = brLabel.sp; if (!sp.visible) return; const w = new THREE.Vector3(); knotGroup.getWorldPosition(w);
+  w.y += (BRS.labR || KNOT_R) * knotGroup.scale.x + 0.035; lab.updateMatrixWorld(true); sp.position.copy(lab.worldToLocal(w)); const sc = S.xr ? 0.34 : 0.4; sp.scale.set(sc, sc * 260 / 1024, 1);
+}
+function brLabelHide() { brLabel.sp.visible = false; const el = $('brread'); if (el) el.hidden = true; }
+function brSweepStart(m) {
+  const B = m.B || BRS.B, items = (m.read || []).slice(); if (!m.read) { brSweepEnd(m); return; }
+  const Q = BR.projAll(rope.comps, B); let hmin = Infinity, hmax = -Infinity, R = 0; Q.forEach((q) => { for (let i = 0; i < q.n; i++) { hmin = Math.min(hmin, q.H[i]); hmax = Math.max(hmax, q.H[i]); R = Math.max(R, Math.hypot(q.U[i] - m.axis[0], q.V[i] - m.axis[1])); } });
+  BRS.labR = R; const c = fromProj(B, m.axis[0], m.axis[1], (hmin + hmax) / 2);
+  BRS.sweep = { m, B, items, k: 0, t0: performance.now() + 300, dur: Math.min(7000, Math.max(2800, items.length * 480)), c, R: R + 0.02, hh: (hmax - hmin) / 2 + 0.03, letters: [], tEnd: 0 };
+  brSweep.visible = true; brAxis.visible = true; brLabel.sp.visible = !!S.xr; drawBrLabel('Örgü sözcüğü okunuyor', '…', `${m.n} iplik · eksenin etrafında bir tur`); placeBrLabel();
+}
+function brSweepTick(now) {
+  const W = BRS.sweep; if (!W) return false; S.suppressMoves = true;
+  if (rope.grabs.length) { brSweepEnd(W.m, true); return false; }
+  if (W.tEnd) { if (now - W.tEnd > 700) brSweepEnd(W.m); return false; }
+  const u = Math.max(0, Math.min(1, (now - W.t0) / W.dur)), th = u * 2 * Math.PI, sgn = W.m.sign || 1, B = W.B;
+  const e1 = new THREE.Vector3(...B.e1), e2 = new THREE.Vector3(...B.e2), d = new THREE.Vector3(...B.d);
+  const dir = e1.clone().multiplyScalar(Math.cos(sgn * th)).addScaledVector(e2, Math.sin(sgn * th));
+  const pos = brSweep.geometry.attributes.position, put = (i, v) => pos.setXYZ(i, v.x, v.y, v.z);
+  put(0, W.c.clone().addScaledVector(d, -W.hh)); put(1, W.c.clone().addScaledVector(dir, W.R).addScaledVector(d, -W.hh)); put(2, W.c.clone().addScaledVector(dir, W.R).addScaledVector(d, W.hh)); put(3, W.c.clone().addScaledVector(d, W.hh)); pos.needsUpdate = true;
+  let changed = false;
+  while (W.k < W.items.length && W.items[W.k].a <= th) { const it = W.items[W.k], dt = brDot(W.k); dt.position.copy(fromProj(B, it.x, it.y, it.h)); dt.userData.t0 = now; dt.visible = true; W.letters.push(it.g); W.k++; changed = true; }
+  for (let k = 0; k < W.k; k++) { const dt = brDots[k], a = Math.min(1, (now - dt.userData.t0) / 600); dt.scale.setScalar(R0 * (2.6 - 1.2 * a)); dt.material.opacity = 0.95 - 0.55 * a; }
+  if (changed) drawBrLabel('Örgü sözcüğü okunuyor', braidText(W.letters), `${W.m.n} iplik · ${W.k}/${W.items.length} harf · her kesişim bir harf: σᵢ, i = eksenden sayılan konum`);
+  placeBrLabel();
+  if (u >= 1) W.tEnd = now;
+  return false;
+}
+function brSweepEnd(m, quick) {
+  const W = BRS.sweep; BRS.sweep = null; brSweep.visible = false; brDots.forEach((d) => { d.visible = false; });
+  rope.settle = 10; rope.fair = 140;
+  const ok = m.jonesOk === false ? 'Jones uyuşmadı!' : m.jonesOk ? '✓ Alexander ve Jones polinomu aynı' : '✓ Alexander polinomu aynı';
+  if (W && !quick) { drawBrLabel(m.mn < m.n || m.mword.length < m.word.length ? `Markov ile sadeleşti: ${m.mn} iplik` : `Örgü: ${m.mn} iplik`, braidText(m.mword) || '1 (boş sözcük)', ok); placeBrLabel(); clearTimeout(BRS.labTimer); BRS.labTimer = setTimeout(brLabelHide, 7000); }
+  else brLabelHide();
+  brDone(m);
+}
+function brDone(m) {
+  setTimeout(() => { brAxis.visible = false; }, 2500);
+  BRS.word = m.mword; BRS.n = m.mn; BRS.hist = [{ word: m.mword.slice(), n: m.mn, note: 'ekrandaki düğümden' }]; BRS.pendingHist = true;
+  const w0 = m.word.length, ok = m.jonesOk === false ? ' (Jones uyuşmadı!)' : m.jonesOk ? ' ✓ (Alexander ve Jones polinomu aynı)' : ' ✓ (Alexander polinomu aynı)';
+  flash(`Örgü: ${m.n} iplik, ${w0} harf → Markov ile ${m.mn} iplik, ${m.mword.length} harf: ${braidText(m.mword) || '1'}${ok}`);
+  renderBraidLab(); S.infoPage = S.xr ? 'braid' : S.infoPage; S.infoDirty = true; drawMenu();
+  if (!S.xr) { const sec = $('sec-braid'); if (sec) { sec.scrollIntoView({ behavior: 'smooth', block: 'start' }); sec.classList.add('hl'); setTimeout(() => sec.classList.remove('hl'), 2200); } }
+}
+/* --- braid lab: apply generators and watch the closure change --- */
+function brSet(word, n, note, animate) {
+  word = word.slice(); BRS.word = word; BRS.n = n; BRS.hist.push({ word: word.slice(), n, note }); if (BRS.hist.length > 30) BRS.hist.shift(); BRS.pendingHist = true;
+  const target = GEO.fit(GEO.braidClosure(word, n), KNOT_R);
+  if (animate && rope.comps.length === target.length && rmIdle()) {
+    const N = target.map((P, c) => Math.max(40, Math.round(Math.max(GEO.curveLength(P), GEO.curveLength(rope.comps[c] || P)) / H0)));
+    const from = rope.comps.map((P, c) => GEO.resampleClosed(P, GEO.curveLength(P) / N[c])).map((P, c) => P.slice(0, 3 * N[c]));
+    const to = target.map((P, c) => GEO.resampleClosed(P, GEO.curveLength(P) / N[c])).map((P, c) => P.slice(0, 3 * N[c]));
+    if (from.every((P, c) => P.length === to[c].length)) { BRS.morph = { from, to, t0: performance.now(), dur: 700 }; renderBraidLab(); return; }
+  }
+  loadComps(GEO.braidClosure(word, n), { relax: false, noUndo: true }); renderBraidLab();
+}
+function brMorphTick(now) {
+  S.suppressMoves = true; prevD = null; const M = BRS.morph, u = Math.min(1, (now - M.t0) / M.dur), e = u * u * (3 - 2 * u);
+  rope.comps = M.from.map((P, c) => { const Q = M.to[c], R = new Array(P.length); for (let i = 0; i < P.length; i++) R[i] = P[i] + (Q[i] - P[i]) * e; return R; }); rope.version++;
+  if (u >= 1) { rope.comps = M.to.map((P) => GEO.resampleClosed(P, H0)); rope.tags = rope.comps.map((P) => new Array(P.length / 3).fill(-1)); rope.settle = 8; rope.version++; BRS.morph = null; prevD = null; RES.key = null; lastRawKey = null; updateDiagram(true); }
+  return true;
+}
+function brStart() { if (BRS.word) return true; const R = merged(); if (R && R.id && R.id.kind === 'unknot') { BRS.word = []; BRS.n = 1; BRS.hist = [{ word: [], n: 1, note: 'düğümsüz: tek iplikli boş örgü' }]; BRS.pendingHist = true; loadComps(GEO.braidClosure([], 1), { relax: false }); renderBraidLab(); return false; } const bw = R && braidOfId(R.id); if (bw && bw.word.length && !bw.ambiguous) { BRS.word = bw.word.slice(); BRS.n = bw.strands; BRS.hist = [{ word: BRS.word.slice(), n: BRS.n, note: 'KnotInfo örgüsü' }]; BRS.pendingHist = true; loadComps(GEO.braidClosure(BRS.word, BRS.n), { relax: false }); renderBraidLab(); return false; } BRS.word = []; BRS.n = 2; BRS.hist = [{ word: [], n: 2, note: 'boş örgü' }]; loadComps(GEO.braidClosure([], 2), { relax: false }); renderBraidLab(); return false; }
+function brAction(a) {
+  if (!rmIdle()) return;
+  if (a === 'conv') { braidConvert(); return; }
+  if (!BRS.word) { brStart(); if (a === 'load') return; }
+  const w = BRS.word.slice(), n = BRS.n;
+  if (a === 'load') { loadComps(GEO.braidClosure(w, n), { relax: false }); flash('Örgünün kapanışı yüklendi.'); return; }
+  if (a === 'undo') { if (!w.length) return; const g = w.pop(); brSet(w, n, `${gen(-g)} ile çarpıldı (son harf silindi)`, true); return; }
+  if (a === 'conj') { if (w.length < 2) return; w.push(w.shift()); brSet(w, n, 'eşlenik: ilk harf sona (Markov I, düğüm değişmez)', true); return; }
+  if (a === 'stab') { w.push(n); brSet(w, n + 1, `kararlılaştırma: ${gen(n)} eklendi, ${n + 1} iplik (Markov II, düğüm değişmez)`, false); return; }
+  if (a === 'destab') { const r = BR.markov(w, n); if (r.n === n && r.word.length === w.length) { flash('Kararsızlaştırılacak tek bir σₙ₋₁ ya da σ₁ yok.'); return; } brSet(r.word, r.n, `Markov sadeleştirme: ${n} → ${r.n} iplik`, false); return; }
+  const mm = /^g([+-])(\d+)$/.exec(a); if (mm) { const i = +mm[2]; if (i >= n) { flash(`${n} iplikte σ${subs(i)} yok; önce Kararlılaştır.`); return; } const g = mm[1] === '+' ? i : -i; w.push(g); brSet(w, n, `${gen(g)} uygulandı`, true); }
+}
+const gen = (g) => `σ${subs(Math.abs(g))}${g < 0 ? '⁻¹' : ''}`;
+function renderBraidLab() {
+  const box = $('brlab'); if (!box) return; const n = BRS.n || 2, w = BRS.word;
+  let html = '';
+  html += `<div class="brword">${w ? (w.length ? braidHTML(w) : '1 (boş örgü)') : '—'} <small>${w ? `${n} iplik · ${w.length} harf` : 'Önce bir örgü oluşturun'}</small></div>`;
+  if (w) html += `<div class="brsvg">${braidSVG(w, n)}</div>`;
+  html += '<div class="brgens">' + Array.from({ length: Math.max(1, n - 1) }, (_, i) => `<button class="mini" data-br="g+${i + 1}">σ${subs(i + 1)}</button><button class="mini" data-br="g-${i + 1}">σ${subs(i + 1)}⁻¹</button>`).join('') + '</div>';
+  html += '<div class="brops"><button class="mini" data-br="undo">Son harfi sil</button><button class="mini" data-br="conj">Eşlenik ⟳</button><button class="mini" data-br="stab">Kararlılaştır +</button><button class="mini" data-br="destab">Markov sadeleştir</button><button class="mini" data-br="load">Kapanışı yükle</button></div>';
+  if (BRS.hist.length) html += '<ol class="brhist">' + BRS.hist.slice().reverse().map((h) => `<li><span class="w">${h.word.length ? braidHTML(h.word) : '1'}</span> <span class="k">${h.name ? h.name : h === BRS.hist[BRS.hist.length - 1] && BRS.pendingHist ? '…' : ''}</span> <small>${esc(h.note || '')}</small></li>`).join('') + '</ol>';
+  box.innerHTML = html;
+}
+$('brlab') && $('brlab').addEventListener('click', (e) => { const b = e.target.closest('[data-br]'); if (b) brAction(b.dataset.br); });
+$('brConv2').addEventListener('click', () => braidConvert());
+$('brStart').addEventListener('click', () => { BRS.word = null; brStart(); });
+$('brEmpty').addEventListener('click', () => { BRS.word = []; BRS.n = 2; BRS.hist = [{ word: [], n: 2, note: 'boş örgü: iki çember' }]; BRS.pendingHist = true; loadComps(GEO.braidClosure([], 2), { relax: false }); renderBraidLab(); });
+function brOnResult(R) { if (!BRS.pendingHist || !BRS.hist.length || BRS.play || BRS.morph) return; const h = BRS.hist[BRS.hist.length - 1]; h.name = idSummaryShort(R); h.nameText = h.name.replace(/<sub>(\d+)<\/sub>/g, (m0, d) => subs(d)).replace(/<[^>]+>/g, ''); BRS.pendingHist = false; renderBraidLab(); S.infoDirty = true; }
+function idSummaryShort(R) { const id = R.id; if (!id) return ''; if (R.nSimp === 0 && R.mu > 1) return `${R.mu} ayrık çember`; if (id.kind === 'unknot') return 'düğümsüz'; if (id.kind === 'prime' || id.kind === 'link') return id.cands.map((c) => (c.mirror && !c.amph ? 'm(' : '') + knotNameHTML(c.name.replace(/\{.*\}$/, '')) + (c.mirror && !c.amph ? ')' : '')).join(' / '); if (id.kind === 'composite') return id.cands.map((c) => knotNameHTML(c.a) + ' # ' + knotNameHTML(c.b)).join(' / '); return 'tabloda yok'; }
+['rmSimp', 'rmR1', 'rmR2', 'rmR3', 'rmR1p', 'rmR2p', 'rmSmooth', 'brConv'].forEach((id) => { const b = $(id); if (!b) return; b.addEventListener('click', () => {
+  if (id === 'rmSimp') rmAuto(); else if (id === 'rmR1') rmRequest('R1'); else if (id === 'rmR2') rmRequest('R2'); else if (id === 'rmR3') rmRequest('R3'); else if (id === 'rmR1p') rmRequest('R1+'); else if (id === 'rmR2p') rmRequest('R2+');
+  else if (id === 'rmSmooth') { rope.fair = 160; flash('Düzgünleştiriliyor: ip, kendi içinden geçmeden pürüzsüzleşiyor.'); } else if (id === 'brConv') braidConvert(); }); });
+
 /* ======================= boot ======================= */
 onResize(); setMode('iso'); placeWall(new THREE.Vector3(0, 0, 1));
 loadPreset('trefoil', { noUndo: true }); setColorMode('fox'); S.needAutoColor = true;
 drawMenu(); renderRlog();
 document.fonts && document.fonts.ready.then(() => { S.infoDirty = true; drawMenu(); drawWall(); drawInset(); });
-window.__lab = { SEIF, seifView, visionRead, toGray, renderSample, sampleComps, setPhotoSource, photo, braidOfId, CATALOG, loadCatalogItem, cam, reticle, surfacePlace: (p, n) => { S.pendingPlace = { p: new THREE.Vector3(...p), n: new THREE.Vector3(...n).normalize(), real: true }; }, wall, menuRect: (id) => { for (const row of MENU) for (const b of row) if (b.id === id) return b.rect; return null; }, drawInfo, drawMenu, xrInfo, xrMenu, screenOf: (c, i) => { const v = new THREE.Vector3(...GEO.pt(rope.comps[c], i)).applyMatrix4(knotGroup.matrixWorld).project(camera); const r = canvas.getBoundingClientRect(); return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height]; }, S, rope, RES, loadPreset, setMode, setColorMode, flipCrossing, autoColor, KM, GEO, knotGroup, camera, curD: () => curD, fox, alignWallToView, menuAction };
+window.__lab = { SEIF, seifView, seifLabel, camera, visionRead, toGray, renderSample, sampleComps, setPhotoSource, photo, braidOfId, CATALOG, loadCatalogItem, cam, reticle, surfacePlace: (p, n) => { S.pendingPlace = { p: new THREE.Vector3(...p), n: new THREE.Vector3(...n).normalize(), real: true }; }, wall, menuRect: (id) => { for (const b of MENU_TAB_BTNS) if (b.id === id) return b.rect; for (const pg of MENU_TABS) for (const row of MENU_PAGES[pg].rows) for (const b of row) if (b.id === id) { if (pg !== menuPage && !MENU_PAGES[menuPage].rows.some((r) => r.some((x) => x.id === id))) { menuPage = pg; drawMenu(); } return MENU_PAGES[menuPage].rows.flat().find((x) => x.id === id).rect; } return null; }, MENU_PAGES, RMS, BRS, rmRequest, rmAuto, braidConvert, brAction, drawInfo, drawMenu, xrInfo, xrMenu, screenOf: (c, i) => { const v = new THREE.Vector3(...GEO.pt(rope.comps[c], i)).applyMatrix4(knotGroup.matrixWorld).project(camera); const r = canvas.getBoundingClientRect(); return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height]; }, S, rope, RES, loadPreset, setMode, setColorMode, flipCrossing, autoColor, KM, GEO, knotGroup, camera, curD: () => curD, fox, alignWallToView, menuAction };
 }
 
 </script>
